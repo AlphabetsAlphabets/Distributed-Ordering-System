@@ -16,16 +16,22 @@ public class CreateDB {
                 + "username TEXT UNIQUE NOT NULL, "
                 + "password TEXT NOT NULL);";
 
-        try (Connection conn = DriverManager.getConnection(url);
-                Statement stmt = conn.createStatement()) {
+        try {
+            Connection conn = DriverManager.getConnection(url);
+            Statement stmt = conn.createStatement();
 
             // Execute the SQL statement to create the table
             stmt.execute(createTableSQL);
 
-            System.out.println("Database and table created successfully.");
+            stmt.executeUpdate("INSERT INTO users (username, password) VALUES ('Jayden', '1234')");
+            stmt.executeUpdate("INSERT INTO users (username, password) VALUES ('Brayden', '1234')");
+            stmt.executeUpdate("INSERT INTO users (username, password) VALUES ('Kayden', '1234')");
+            stmt.executeUpdate("INSERT INTO users (username, password) VALUES ('Okayden', '1234')");
 
+            System.out.println("Database and table created successfully.");
         } catch (SQLException e) {
             System.err.println("An error occurred: " + e.getMessage());
         }
+
     }
 }
