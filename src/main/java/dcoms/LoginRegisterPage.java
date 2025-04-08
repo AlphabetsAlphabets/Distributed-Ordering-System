@@ -2,6 +2,7 @@ package dcoms;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 
 public class LoginRegisterPage extends JPanel {
     private CardLayout cardLayout;
@@ -18,7 +19,7 @@ public class LoginRegisterPage extends JPanel {
         this.cardPanel = cardPanel;
 
         this.initUI();
-        this.registerCallbacks();
+        this.buttonCallbacks();
     }
 
     private void initUI() {
@@ -67,16 +68,29 @@ public class LoginRegisterPage extends JPanel {
         return buttonPanel;
     }
 
-    private void registerCallbacks() {
+    private void buttonCallbacks() {
         this.loginButton.addActionListener(e -> {
-            System.out.println("Hello world!");
-            Register.register(this.usernameField.getText(), this.passwordField.getPassword());
-
             this.cardLayout.show(this.cardPanel, "hi");
         });
 
         this.registerButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Registration coming soon!");
+            char[] password = this.passwordField.getPassword();
+            String username = this.usernameField.getText();
+
+            if (username.length() <= 0) {
+                JOptionPane.showMessageDialog(this, "Username field cannot be empty.");
+                return;
+            } else if (password.length <= 0) {
+                JOptionPane.showMessageDialog(this, "Password field cannot be empty.");
+            }
+
+            try {
+                Register.register(this.usernameField.getText(),
+                        this.passwordField.getPassword());
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
         });
     }
 }
