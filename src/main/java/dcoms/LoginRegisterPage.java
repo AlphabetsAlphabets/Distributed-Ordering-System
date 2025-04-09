@@ -1,6 +1,9 @@
 package dcoms;
 
 import javax.swing.*;
+
+import dcoms.remote.RMIInterface;
+
 import java.awt.*;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -74,7 +77,7 @@ public class LoginRegisterPage extends JPanel {
 
     private void buttonCallbacks() {
         this.loginButton.addActionListener(e -> {
-            String rmi = "rmi://localhost:1040/";
+            String rmi = "rmi://192.168.153.241:1040/";
             RMIInterface obj;
             try {
                 obj = (RMIInterface) Naming.lookup(rmi + "test");
