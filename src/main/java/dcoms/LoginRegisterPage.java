@@ -2,6 +2,10 @@ package dcoms;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 
 public class LoginRegisterPage extends JPanel {
@@ -70,6 +74,15 @@ public class LoginRegisterPage extends JPanel {
 
     private void buttonCallbacks() {
         this.loginButton.addActionListener(e -> {
+            String rmi = "rmi://localhost:1040/";
+            RMIInterface obj;
+            try {
+                obj = (RMIInterface) Naming.lookup(rmi + "test");
+                obj.test();
+            } catch (MalformedURLException | RemoteException | NotBoundException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
             this.cardLayout.show(this.cardPanel, "hi");
         });
 
