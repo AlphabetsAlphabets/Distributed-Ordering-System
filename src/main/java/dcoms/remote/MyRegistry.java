@@ -1,4 +1,4 @@
-package dcoms;
+package dcoms.remote;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
