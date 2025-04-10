@@ -2,9 +2,10 @@ package dcoms.client;
 
 import javax.swing.*;
 
-import dcoms.Register;
-
 import java.awt.*;
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 
 public class RegistrationPage extends JPanel {
@@ -101,10 +102,20 @@ public class RegistrationPage extends JPanel {
             // TODO: Add check for phone numbers
 
             try {
-                Register.register(username, password, phone, email);
+                var registerUser = ClientInterface.getFunction("registerUser");
+                registerUser.registerUser(username, password, phone, email);
             } catch (SQLException e1) {
                 JOptionPane.showMessageDialog(this, e1.getMessage());
                 return;
+            } catch (MalformedURLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            } catch (RemoteException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            } catch (NotBoundException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
             }
 
             JOptionPane.showMessageDialog(this, "Registration successful!");
