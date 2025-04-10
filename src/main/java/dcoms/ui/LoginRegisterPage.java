@@ -10,6 +10,8 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LoginRegisterPage extends JPanel {
     private CardLayout cardLayout;
@@ -104,26 +106,10 @@ public class LoginRegisterPage extends JPanel {
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
-            // If validation passes, proceed with login
-            try {
-                Register.register(username, password);
-            } catch (SQLException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-
-            String rmi = "rmi://192.168.153.241:1040/";
-            RMIInterface obj;
-            try {
-                obj = (RMIInterface) Naming.lookup(rmi + "test");
-                obj.test();
-            } catch (MalformedURLException | RemoteException | NotBoundException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-
-            this.cardLayout.show(this.cardPanel, "hi");
+            
+            // Simple login test - just navigate to order page
+            System.out.println("Login attempt with username: " + username);
+            this.cardLayout.show(this.cardPanel, "order");
         });
 
         this.registerButton.addActionListener(e -> {
