@@ -1,22 +1,11 @@
-package dcoms.remote;
+package dcoms;
 
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import dcoms.Database;
-
-public class Server extends UnicastRemoteObject implements RemoteInterface {
-    public Server() throws RemoteException {
-        super();
-    }
-
-    @Override
-    public boolean registerUser(String username, char[] password, int phone, String email)
-            throws RemoteException, SQLException {
-
+public class Register {
+    public static boolean register(String username, char[] password, int phone, String email) throws SQLException {
         Connection connection = Database.getConnection();
 
         String query = "INSERT INTO users (username, password, phone, email) VALUES (?, ?, ?, ?);";

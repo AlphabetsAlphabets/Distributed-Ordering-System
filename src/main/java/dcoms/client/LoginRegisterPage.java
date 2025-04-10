@@ -1,17 +1,9 @@
-package dcoms.ui;
+package dcoms.client;
 
 import javax.swing.*;
 
-import dcoms.remote.RMIInterface;
-
 import java.awt.*;
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class LoginRegisterPage extends JPanel {
     private CardLayout cardLayout;
@@ -106,7 +98,7 @@ public class LoginRegisterPage extends JPanel {
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            
+
             // Simple login test - just navigate to order page
             System.out.println("Login attempt with username: " + username);
             this.cardLayout.show(this.cardPanel, "order");
@@ -114,24 +106,6 @@ public class LoginRegisterPage extends JPanel {
 
         this.registerButton.addActionListener(e -> {
             this.cardLayout.show(this.cardPanel, "register");
-
-            char[] password = this.passwordField.getPassword();
-            String username = this.usernameField.getText();
-
-            if (username.length() <= 0) {
-                JOptionPane.showMessageDialog(this, "Username field cannot be empty.");
-                return;
-            } else if (password.length <= 0) {
-                JOptionPane.showMessageDialog(this, "Password field cannot be empty.");
-            }
-
-            try {
-                Register.register(this.usernameField.getText(),
-                        this.passwordField.getPassword());
-            } catch (SQLException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
         });
     }
 }

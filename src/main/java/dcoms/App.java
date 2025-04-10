@@ -2,9 +2,10 @@ package dcoms;
 
 import javax.swing.*;
 
-import dcoms.ui.LoginRegisterPage;
-import dcoms.ui.OrderPage;
-import dcoms.ui.RegistrationPage;
+import dcoms.client.ClientInterface;
+import dcoms.client.LoginRegisterPage;
+import dcoms.client.OrderPage;
+import dcoms.client.RegistrationPage;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -12,6 +13,8 @@ import java.awt.event.WindowEvent;
 
 public class App {
     public static void main(String[] args) {
+        new ClientInterface("localhost", 1040);
+
         // Ensure GUI runs on the Event Dispatch Thread (EDT) - good practice
         javax.swing.SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Login App");
