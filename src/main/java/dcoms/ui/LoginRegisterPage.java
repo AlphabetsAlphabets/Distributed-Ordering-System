@@ -1,4 +1,4 @@
-package dcoms;
+package dcoms.ui;
 
 import javax.swing.*;
 
@@ -67,16 +67,52 @@ public class LoginRegisterPage extends JPanel {
     }
 
     private JPanel createButtonPanel() {
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel buttonPanel = new JPanel(new BorderLayout());
+        JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
         this.registerButton = new JButton("Register");
         this.loginButton = new JButton("Login");
-        buttonPanel.add(registerButton);
-        buttonPanel.add(loginButton);
+
+        leftPanel.add(registerButton);
+        rightPanel.add(loginButton);
+
+        buttonPanel.add(leftPanel, BorderLayout.WEST);
+        buttonPanel.add(rightPanel, BorderLayout.EAST);
         return buttonPanel;
     }
 
     private void buttonCallbacks() {
         this.loginButton.addActionListener(e -> {
+            String username = this.usernameField.getText().trim();
+            char[] password = this.passwordField.getPassword();
+
+            // Validate username
+            if (username.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "Please enter your username",
+                        "Login Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Validate password
+            if (password.length == 0) {
+                JOptionPane.showMessageDialog(this,
+                        "Please enter your password",
+                        "Login Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // If validation passes, proceed with login
+            try {
+                Register.register(username, password);
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+
             String rmi = "rmi://192.168.153.241:1040/";
             RMIInterface obj;
             try {
@@ -86,10 +122,13 @@ public class LoginRegisterPage extends JPanel {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
+
             this.cardLayout.show(this.cardPanel, "hi");
         });
 
         this.registerButton.addActionListener(e -> {
+            this.cardLayout.show(this.cardPanel, "register");
+
             char[] password = this.passwordField.getPassword();
             String username = this.usernameField.getText();
 

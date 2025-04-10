@@ -1,6 +1,11 @@
 package dcoms;
 
 import javax.swing.*;
+
+import dcoms.ui.LoginRegisterPage;
+import dcoms.ui.OrderPage;
+import dcoms.ui.RegistrationPage;
+
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -27,6 +32,7 @@ public class App {
 
             cardPanel.add(new LoginRegisterPage(cardLayout, cardPanel), "login");
             cardPanel.add(new OrderPage(), "hi");
+            cardPanel.add(new RegistrationPage(cardLayout, cardPanel), "register");
 
             frame.add(cardPanel);
             frame.setVisible(true);
