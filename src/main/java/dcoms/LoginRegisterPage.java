@@ -1,7 +1,15 @@
 package dcoms;
 
 import javax.swing.*;
+
+import dcoms.remote.RMIInterface;
+
 import java.awt.*;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.sql.SQLException;
 
 public class LoginRegisterPage extends JPanel {
     private CardLayout cardLayout;
@@ -18,7 +26,7 @@ public class LoginRegisterPage extends JPanel {
         this.cardPanel = cardPanel;
 
         this.initUI();
-        this.registerCallbacks();
+        this.buttonCallbacks();
     }
 
     private void initUI() {
@@ -74,7 +82,7 @@ public class LoginRegisterPage extends JPanel {
         return buttonPanel;
     }
 
-    private void registerCallbacks() {
+    private void buttonCallbacks() {
         this.loginButton.addActionListener(e -> {
             String username = this.usernameField.getText().trim();
             char[] password = this.passwordField.getPassword();
@@ -99,11 +107,40 @@ public class LoginRegisterPage extends JPanel {
             
             // If validation passes, proceed with login
             Register.register(username, password);
+
+            String rmi = "rmi://192.168.153.241:1040/";
+            RMIInterface obj;
+            try {
+                obj = (RMIInterface) Naming.lookup(rmi + "test");
+                obj.test();
+            } catch (MalformedURLException | RemoteException | NotBoundException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+
             this.cardLayout.show(this.cardPanel, "hi");
         });
 
         this.registerButton.addActionListener(e -> {
             this.cardLayout.show(this.cardPanel, "register");
+
+            char[] password = this.passwordField.getPassword();
+            String username = this.usernameField.getText();
+
+            if (username.length() <= 0) {
+                JOptionPane.showMessageDialog(this, "Username field cannot be empty.");
+                return;
+            } else if (password.length <= 0) {
+                JOptionPane.showMessageDialog(this, "Password field cannot be empty.");
+            }
+
+            try {
+                Register.register(this.usernameField.getText(),
+                        this.passwordField.getPassword());
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
         });
     }
 }
