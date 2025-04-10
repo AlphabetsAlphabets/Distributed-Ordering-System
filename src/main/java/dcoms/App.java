@@ -26,7 +26,7 @@ public class App {
             JPanel cardPanel = new JPanel(cardLayout);
 
             cardPanel.add(new LoginRegisterPage(cardLayout, cardPanel), "login");
-            cardPanel.add(new OrderPage(), "hi");
+            cardPanel.add(new OrderPage(cardLayout, cardPanel), "order");
             cardPanel.add(new RegistrationPage(cardLayout, cardPanel), "register");
 
             frame.add(cardPanel);
