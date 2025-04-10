@@ -1,4 +1,4 @@
-package dcoms.ui;
+package dcoms.client;
 
 import javax.swing.*;
 
