@@ -99,7 +99,9 @@ public class LoginRegisterPage extends JPanel {
                 return;
             }
 
-            this.cardLayout.show(this.cardPanel, "hi");
+            // Simple login test - just navigate to order page
+            System.out.println("Login attempt with username: " + username);
+            this.cardLayout.show(this.cardPanel, "order");
         });
 
         this.registerButton.addActionListener(e -> {
