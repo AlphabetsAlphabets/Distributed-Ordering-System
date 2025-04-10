@@ -1,4 +1,4 @@
-package dcoms;
+package dcoms.ui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,7 +6,7 @@ import java.awt.*;
 public class RegistrationPage extends JPanel {
     private CardLayout cardLayout;
     private JPanel cardPanel;
-    
+
     // Components
     private JTextField usernameField;
     private JTextField emailField;
@@ -83,7 +83,7 @@ public class RegistrationPage extends JPanel {
             String email = this.emailField.getText();
             String phone = this.phoneField.getText();
             char[] password = this.passwordField.getPassword();
-            
+
             // TODO: Add validation and registration logic
             JOptionPane.showMessageDialog(this, "Registration successful!");
             this.cardLayout.show(this.cardPanel, "login");
@@ -93,4 +93,4 @@ public class RegistrationPage extends JPanel {
             this.cardLayout.show(this.cardPanel, "login");
         });
     }
-} 
+}

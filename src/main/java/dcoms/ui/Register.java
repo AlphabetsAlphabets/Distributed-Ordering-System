@@ -1,9 +1,11 @@
-package dcoms;
+package dcoms.ui;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import dcoms.Database;
 
 public class Register {
     public static boolean register(String username, char[] password) throws SQLException {

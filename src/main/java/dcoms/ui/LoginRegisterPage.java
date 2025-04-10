@@ -1,4 +1,4 @@
-package dcoms;
+package dcoms.ui;
 
 import javax.swing.*;
 
@@ -72,13 +72,13 @@ public class LoginRegisterPage extends JPanel {
         JPanel buttonPanel = new JPanel(new BorderLayout());
         JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        
+
         this.registerButton = new JButton("Register");
         this.loginButton = new JButton("Login");
-        
+
         leftPanel.add(registerButton);
         rightPanel.add(loginButton);
-        
+
         buttonPanel.add(leftPanel, BorderLayout.WEST);
         buttonPanel.add(rightPanel, BorderLayout.EAST);
         return buttonPanel;
@@ -88,22 +88,22 @@ public class LoginRegisterPage extends JPanel {
         this.loginButton.addActionListener(e -> {
             String username = this.usernameField.getText().trim();
             char[] password = this.passwordField.getPassword();
-            
+
             // Validate username
             if (username.isEmpty()) {
-                JOptionPane.showMessageDialog(this, 
-                    "Please enter your username", 
-                    "Login Error", 
-                    JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,
+                        "Please enter your username",
+                        "Login Error",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            
+
             // Validate password
             if (password.length == 0) {
-                JOptionPane.showMessageDialog(this, 
-                    "Please enter your password", 
-                    "Login Error", 
-                    JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,
+                        "Please enter your password",
+                        "Login Error",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
             

@@ -1,6 +1,11 @@
 package dcoms;
 
 import javax.swing.*;
+
+import dcoms.ui.LoginRegisterPage;
+import dcoms.ui.OrderPage;
+import dcoms.ui.RegistrationPage;
+
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
