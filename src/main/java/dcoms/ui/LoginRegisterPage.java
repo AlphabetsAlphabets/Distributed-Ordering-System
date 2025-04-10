@@ -2,13 +2,7 @@ package dcoms.ui;
 
 import javax.swing.*;
 
-import dcoms.remote.RMIInterface;
-
 import java.awt.*;
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.sql.SQLException;
 
 public class LoginRegisterPage extends JPanel {
@@ -103,24 +97,6 @@ public class LoginRegisterPage extends JPanel {
                         "Login Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            }
-
-            // If validation passes, proceed with login
-            try {
-                Register.register(username, password);
-            } catch (SQLException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-
-            String rmi = "rmi://192.168.153.241:1040/";
-            RMIInterface obj;
-            try {
-                obj = (RMIInterface) Naming.lookup(rmi + "test");
-                obj.test();
-            } catch (MalformedURLException | RemoteException | NotBoundException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
             }
 
             this.cardLayout.show(this.cardPanel, "hi");
