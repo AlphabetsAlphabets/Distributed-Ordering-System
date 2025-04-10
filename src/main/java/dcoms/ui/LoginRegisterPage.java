@@ -106,24 +106,6 @@ public class LoginRegisterPage extends JPanel {
 
         this.registerButton.addActionListener(e -> {
             this.cardLayout.show(this.cardPanel, "register");
-
-            char[] password = this.passwordField.getPassword();
-            String username = this.usernameField.getText();
-
-            if (username.length() <= 0) {
-                JOptionPane.showMessageDialog(this, "Username field cannot be empty.");
-                return;
-            } else if (password.length <= 0) {
-                JOptionPane.showMessageDialog(this, "Password field cannot be empty.");
-            }
-
-            try {
-                Register.register(this.usernameField.getText(),
-                        this.passwordField.getPassword());
-            } catch (SQLException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
         });
     }
 }

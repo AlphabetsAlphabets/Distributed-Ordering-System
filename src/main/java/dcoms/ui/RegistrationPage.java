@@ -1,7 +1,11 @@
 package dcoms.ui;
 
 import javax.swing.*;
+
+import dcoms.Register;
+
 import java.awt.*;
+import java.sql.SQLException;
 
 public class RegistrationPage extends JPanel {
     private CardLayout cardLayout;
@@ -81,10 +85,28 @@ public class RegistrationPage extends JPanel {
         this.registerButton.addActionListener(e -> {
             String username = this.usernameField.getText();
             String email = this.emailField.getText();
-            String phone = this.phoneField.getText();
+            int phone = Integer.parseInt(this.phoneField.getText());
             char[] password = this.passwordField.getPassword();
 
-            // TODO: Add validation and registration logic
+            if (username.length() <= 0) {
+                JOptionPane.showMessageDialog(this, "Username field cannot be empty.");
+                return;
+            } else if (password.length <= 0) {
+                JOptionPane.showMessageDialog(this, "Password field cannot be empty.");
+            } else if (email.length() <= 0) {
+                // TODO: Email validation
+                JOptionPane.showMessageDialog(this, "Email cannot be empty");
+            }
+
+            // TODO: Add check for phone numbers
+
+            try {
+                Register.register(username, password, phone, email);
+            } catch (SQLException e1) {
+                JOptionPane.showMessageDialog(this, e1.getMessage());
+                return;
+            }
+
             JOptionPane.showMessageDialog(this, "Registration successful!");
             this.cardLayout.show(this.cardPanel, "login");
         });
