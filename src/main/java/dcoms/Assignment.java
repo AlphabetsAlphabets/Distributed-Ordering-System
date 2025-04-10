@@ -1,8 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
-package com.mycompany.assignment;
+package dcoms;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
