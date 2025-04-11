@@ -2,6 +2,8 @@ package dcoms.client;
 
 import javax.swing.*;
 
+import dcoms.Errors;
+
 import java.awt.*;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
@@ -83,7 +85,7 @@ public class RegistrationPage extends JPanel {
     }
 
     private void registerCallbacks() {
-        this.registerButton.addActionListener(e -> {
+        this.registerButton.addActionListener(event -> {
             String username = this.usernameField.getText();
             String email = this.emailField.getText();
             int phone = Integer.parseInt(this.phoneField.getText());
@@ -101,11 +103,14 @@ public class RegistrationPage extends JPanel {
 
             // TODO: Add check for phone numbers
 
+            String errorMsg = "";
             try {
                 var registerUser = ClientInterface.getFunction("registerUser");
                 registerUser.registerUser(username, password, phone, email);
             } catch (SQLException e1) {
-                JOptionPane.showMessageDialog(this, e1.getMessage());
+                errorMsg = Errors.match(e1);
+                JOptionPane.showMessageDialog(this, errorMsg);
+                System.out.println("Error msg: " + errorMsg);
                 return;
             } catch (MalformedURLException e1) {
                 // TODO Auto-generated catch block
@@ -118,11 +123,16 @@ public class RegistrationPage extends JPanel {
                 e1.printStackTrace();
             }
 
+            if (errorMsg.length() == 0) {
+                JOptionPane.showMessageDialog(this, errorMsg);
+                return;
+            }
+
             JOptionPane.showMessageDialog(this, "Registration successful!");
             this.cardLayout.show(this.cardPanel, "login");
         });
 
-        this.backButton.addActionListener(e -> {
+        this.backButton.addActionListener(event -> {
             this.cardLayout.show(this.cardPanel, "login");
         });
     }
