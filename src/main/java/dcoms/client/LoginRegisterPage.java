@@ -1,7 +1,9 @@
-package dcoms;
+package dcoms.client;
 
 import javax.swing.*;
+
 import java.awt.*;
+import java.sql.SQLException;
 
 public class LoginRegisterPage extends JPanel {
     private CardLayout cardLayout;
@@ -18,7 +20,7 @@ public class LoginRegisterPage extends JPanel {
         this.cardPanel = cardPanel;
 
         this.initUI();
-        this.registerCallbacks();
+        this.buttonCallbacks();
     }
 
     private void initUI() {
@@ -59,24 +61,51 @@ public class LoginRegisterPage extends JPanel {
     }
 
     private JPanel createButtonPanel() {
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel buttonPanel = new JPanel(new BorderLayout());
+        JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
         this.registerButton = new JButton("Register");
         this.loginButton = new JButton("Login");
-        buttonPanel.add(registerButton);
-        buttonPanel.add(loginButton);
+
+        leftPanel.add(registerButton);
+        rightPanel.add(loginButton);
+
+        buttonPanel.add(leftPanel, BorderLayout.WEST);
+        buttonPanel.add(rightPanel, BorderLayout.EAST);
         return buttonPanel;
     }
 
-    private void registerCallbacks() {
+    private void buttonCallbacks() {
         this.loginButton.addActionListener(e -> {
-            System.out.println("Hello world!");
-            Register.register(this.usernameField.getText(), this.passwordField.getPassword());
+            String username = this.usernameField.getText().trim();
+            char[] password = this.passwordField.getPassword();
 
-            this.cardLayout.show(this.cardPanel, "hi");
+            // Validate username
+            if (username.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "Please enter your username",
+                        "Login Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Validate password
+            if (password.length == 0) {
+                JOptionPane.showMessageDialog(this,
+                        "Please enter your password",
+                        "Login Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Simple login test - just navigate to order page
+            System.out.println("Login attempt with username: " + username);
+            this.cardLayout.show(this.cardPanel, "order");
         });
 
         this.registerButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Registration coming soon!");
+            this.cardLayout.show(this.cardPanel, "register");
         });
     }
 }
