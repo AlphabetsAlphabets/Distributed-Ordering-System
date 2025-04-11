@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import dcoms.ui.LoginRegisterPage;
 import dcoms.ui.OrderPage;
+import dcoms.ui.OrderTracking;
 import dcoms.ui.RegistrationPage;
 
 import java.awt.*;
@@ -32,6 +33,7 @@ public class App {
 
             cardPanel.add(new LoginRegisterPage(cardLayout, cardPanel), "login");
             cardPanel.add(new OrderPage(), "hi");
+            cardPanel.add(new OrderTracking(), "tracking");
             cardPanel.add(new RegistrationPage(cardLayout, cardPanel), "register");
 
             frame.add(cardPanel);

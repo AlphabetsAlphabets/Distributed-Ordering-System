@@ -123,7 +123,8 @@ public class LoginRegisterPage extends JPanel {
                 e1.printStackTrace();
             }
 
-            this.cardLayout.show(this.cardPanel, "hi");
+            // this.cardLayout.show(this.cardPanel, "hi");
+            new OrderTracking().setVisible(true);
         });
 
         this.registerButton.addActionListener(e -> {
