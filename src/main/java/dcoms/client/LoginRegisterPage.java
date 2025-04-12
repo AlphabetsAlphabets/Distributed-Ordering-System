@@ -3,6 +3,10 @@ package dcoms.client;
 import javax.swing.*;
 
 import java.awt.*;
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.sql.SQLException;
 
 public class LoginRegisterPage extends JPanel {
     private CardLayout cardLayout;
@@ -107,9 +111,31 @@ public class LoginRegisterPage extends JPanel {
                 return;
             }
 
-            // Simple login test - just navigate to order page
-            System.out.println("Login attempt with username: " + username);
-            this.cardLayout.show(this.cardPanel, "order");
+            boolean loginSuccessful = false;
+
+            try {
+                var loginUser = ClientInterface.getFunction("loginUser");
+                loginSuccessful = loginUser.loginUser(username, password);
+            } catch (MalformedURLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            } catch (RemoteException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            } catch (NotBoundException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                System.out.println("SQL Exception");
+            }
+
+            if (!loginSuccessful) {
+                JOptionPane.showMessageDialog(this, "Unable to login");
+            } else {
+                this.cardLayout.show(this.cardPanel, "order");
+            }
         });
     }
 
