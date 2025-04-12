@@ -88,7 +88,7 @@ public class RegistrationPage extends JPanel {
         this.registerButton.addActionListener(event -> {
             String username = this.usernameField.getText();
             String email = this.emailField.getText();
-            int phone = Integer.parseInt(this.phoneField.getText());
+            String phone = this.phoneField.getText();
             char[] password = this.passwordField.getPassword();
 
             if (username.length() <= 0) {
