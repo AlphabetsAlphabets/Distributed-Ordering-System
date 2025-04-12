@@ -15,7 +15,7 @@ public class Server extends UnicastRemoteObject implements RemoteInterface {
     }
 
     @Override
-    public boolean registerUser(String username, char[] password, int phone, String email)
+    public boolean registerUser(String username, char[] password, String phone, String email)
             throws RemoteException, SQLException {
 
         Connection connection = Database.getConnection();
@@ -25,7 +25,7 @@ public class Server extends UnicastRemoteObject implements RemoteInterface {
 
         stmt.setString(1, username);
         stmt.setString(2, new String(password));
-        stmt.setInt(3, phone);
+        stmt.setString(3, phone);
         stmt.setString(4, email);
 
         stmt.executeUpdate();
