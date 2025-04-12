@@ -3,7 +3,6 @@ package dcoms.client;
 import javax.swing.*;
 
 import java.awt.*;
-import java.sql.SQLException;
 
 public class LoginRegisterPage extends JPanel {
     private CardLayout cardLayout;
@@ -44,12 +43,16 @@ public class LoginRegisterPage extends JPanel {
     private JPanel createLabeledField(String labelText, JTextField field) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
         JLabel label = new JLabel(labelText);
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         field.setMaximumSize(field.getPreferredSize());
         field.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         panel.add(label);
         panel.add(field);
+
         return panel;
     }
 
@@ -77,6 +80,11 @@ public class LoginRegisterPage extends JPanel {
     }
 
     private void buttonCallbacks() {
+        loginButtonCallback();
+        registerButtonCallback();
+    }
+
+    private void loginButtonCallback() {
         this.loginButton.addActionListener(e -> {
             String username = this.usernameField.getText().trim();
             char[] password = this.passwordField.getPassword();
@@ -103,7 +111,9 @@ public class LoginRegisterPage extends JPanel {
             System.out.println("Login attempt with username: " + username);
             this.cardLayout.show(this.cardPanel, "order");
         });
+    }
 
+    private void registerButtonCallback() {
         this.registerButton.addActionListener(e -> {
             this.cardLayout.show(this.cardPanel, "register");
         });
