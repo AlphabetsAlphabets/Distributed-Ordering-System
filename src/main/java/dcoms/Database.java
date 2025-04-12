@@ -11,15 +11,20 @@ public class Database {
     private static boolean connected;
 
     private static void connect() {
-        if (!connected) {
-            try {
-                conn = DriverManager.getConnection("jdbc:sqlite:database.db");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        if (connected)
+            return;
 
-            connected = true;
+        String url = "jdbc:postgresql://localhost:5432/mydb";
+        String db_user = "star"; // user must have CREATEDB privilege.
+        String password = "1234";
+
+        try {
+            conn = DriverManager.getConnection(url, db_user, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
+        connected = true;
     }
 
     public static void disconnect() {
