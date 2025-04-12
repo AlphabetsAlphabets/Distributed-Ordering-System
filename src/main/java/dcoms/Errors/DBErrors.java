@@ -1,4 +1,4 @@
-package dcoms;
+package dcoms.Errors;
 
 public enum DBErrors {
     DUPLICATE_USERNAME("Username already taken."),

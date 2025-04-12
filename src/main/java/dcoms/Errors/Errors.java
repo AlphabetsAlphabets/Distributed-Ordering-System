@@ -1,4 +1,4 @@
-package dcoms;
+package dcoms.Errors;
 
 public class Errors {
     public static String match(Exception e) {

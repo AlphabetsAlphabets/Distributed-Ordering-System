@@ -2,7 +2,7 @@ package dcoms.client;
 
 import javax.swing.*;
 
-import dcoms.Errors;
+import dcoms.Errors.Errors;
 
 import java.awt.*;
 import java.net.MalformedURLException;
