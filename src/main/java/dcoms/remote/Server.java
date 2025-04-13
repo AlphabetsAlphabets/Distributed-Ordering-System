@@ -37,16 +37,17 @@ public class Server extends UnicastRemoteObject implements RemoteInterface {
     public boolean loginUser(String username, char[] password) throws RemoteException, SQLException {
         Connection connection = Database.getConnection();
 
-        String query = "SELECT COUNT(username) FROM users WHERE username=? AND password=?;";
+        String query = "SELECT COUNT(username) as num_users FROM users WHERE username=? AND password=?;";
         PreparedStatement stmt = connection.prepareStatement(query);
 
         stmt.setString(1, username);
         stmt.setString(2, new String(password));
 
         ResultSet rs = stmt.executeQuery();
-        int count = rs.getInt("COUNT(username)");
+        rs.next();
+        int count = rs.getInt("num_users");
         if (count > 1) {
-            // Should pass this through the error class.
+            // TODO: Pass this through the error class
             return false;
         } else if (count == 0) {
             return false;
