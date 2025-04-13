@@ -31,6 +31,9 @@
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="mainPanel">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
       <SubComponents>
@@ -70,7 +73,7 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace pref="156" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="usernameLabel" alignment="1" min="-2" max="-2" attributes="0"/>
                               <Component id="passwordLabel" alignment="1" min="-2" max="-2" attributes="0"/>
@@ -159,10 +162,13 @@
             </Container>
           </SubComponents>
         </Container>
-        <Component class="dcoms.client.UserPanel" name="userPanel">
+        <Component class="dcoms.client.RegisterPage" name="registerPanel">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new dcoms.client.RegisterPage()"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
-              <CardConstraints cardName="user panel"/>
+              <CardConstraints cardName="register panel"/>
             </Constraint>
           </Constraints>
         </Component>
