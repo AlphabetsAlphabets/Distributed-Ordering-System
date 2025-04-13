@@ -4,10 +4,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderPage extends JPanel {
     private CardLayout cardLayout;
     private JPanel cardPanel;
+    
+    // Database connection details
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/mydb";
+    private static final String USER = "star";
+    private static final String PASSWORD = "password";
 
     public OrderPage(CardLayout cardLayout, JPanel cardPanel) {
         this.cardLayout = cardLayout;
@@ -25,11 +36,21 @@ public class OrderPage extends JPanel {
         this.add(headerPanel, BorderLayout.NORTH);
 
         // Create main content panel
-        JPanel contentPanel = new JPanel(new GridLayout(2, 2, 20, 20));
+        JPanel contentPanel = new JPanel(new GridLayout(0, 2, 20, 20));
         contentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Create food buttons
-        String[] foodItems = { "Nasi Lemak", "Mee Goreng", "Roti Canai", "Ramly Burger" };
+        // Fetch food items from database and create buttons
+        List<String> foodItems = getFoodItemsFromDatabase();
+        
+        if (foodItems.isEmpty()) {
+            // Fallback to hardcoded food items if database fetch fails
+            foodItems = new ArrayList<>();
+            foodItems.add("Nasi Lemak");
+            foodItems.add("Mee Goreng");
+            foodItems.add("Roti Canai");
+            foodItems.add("Ramly Burger");
+        }
+        
         for (String food : foodItems) {
             JButton foodButton = new JButton(food);
             foodButton.setFont(new Font("Arial", Font.BOLD, 16));
@@ -44,6 +65,42 @@ public class OrderPage extends JPanel {
         }
 
         this.add(contentPanel, BorderLayout.CENTER);
+    }
+    
+    private List<String> getFoodItemsFromDatabase() {
+        List<String> foodItems = new ArrayList<>();
+        
+        try {
+            // Register PostgreSQL driver
+            Class.forName("org.postgresql.Driver");
+            
+            // Open a connection
+            Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+            Statement stmt = conn.createStatement();
+            
+            // Execute query to get food items
+            String sql = "SELECT food_name FROM food";
+            ResultSet rs = stmt.executeQuery(sql);
+            
+            // Process results
+            while (rs.next()) {
+                String foodName = rs.getString("food_name");
+                foodItems.add(foodName);
+            }
+            
+            // Clean up
+            rs.close();
+            stmt.close();
+            conn.close();
+            
+            System.out.println("Successfully fetched " + foodItems.size() + " food items from database");
+            
+        } catch (Exception e) {
+            System.err.println("Error fetching food items from database:");
+            e.printStackTrace();
+        }
+        
+        return foodItems;
     }
 
     private void showQuantityDialog(String foodItem) {

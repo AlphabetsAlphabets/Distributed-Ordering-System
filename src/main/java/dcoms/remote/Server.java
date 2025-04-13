@@ -44,14 +44,25 @@ public class Server extends UnicastRemoteObject implements RemoteInterface {
         stmt.setString(2, new String(password));
 
         ResultSet rs = stmt.executeQuery();
-        int count = rs.getInt("COUNT(username)");
-        if (count > 1) {
-            // Should pass this through the error class.
-            return false;
-        } else if (count == 0) {
-            return false;
+        System.out.println("Attempting login for user: " + username);
+        
+        if (rs.next()) {
+            int count = rs.getInt(1); // Use column index instead of name
+            System.out.println("Found " + count + " matching users");
+            
+            if (count > 1) {
+                System.out.println("Multiple users found with same credentials!");
+                return false;
+            } else if (count == 1) {
+                System.out.println("Login successful");
+                return true;
+            } else {
+                System.out.println("No matching users found");
+                return false;
+            }
         }
-
-        return true;
+        
+        System.out.println("No results returned from query");
+        return false;
     }
 }
