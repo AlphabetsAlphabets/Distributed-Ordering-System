@@ -43,7 +43,7 @@ public class LoginPage extends javax.swing.JFrame {
         buttonPanel = new javax.swing.JPanel();
         registerButton = new javax.swing.JButton();
         loginButton = new javax.swing.JButton();
-        registerPanel = new dcoms.client.RegisterPage();
+        RegisterPanel = new dcoms.client.RegisterPage();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(500, 500));
@@ -55,6 +55,7 @@ public class LoginPage extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
+        CardLayout cardLayout = new CardLayout();
         mainPanel.setLayout(new java.awt.CardLayout());
 
         LoginPanel.setMaximumSize(new java.awt.Dimension(500, 500));
@@ -135,7 +136,7 @@ public class LoginPage extends javax.swing.JFrame {
         LoginPanel.add(buttonPanel);
 
         mainPanel.add(LoginPanel, "login panel");
-        mainPanel.add(registerPanel, "register panel");
+        mainPanel.add(RegisterPanel, "register panel");
 
         getContentPane().add(mainPanel);
 
@@ -210,6 +211,7 @@ public class LoginPage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel LoginPanel;
+    private dcoms.client.RegisterPage RegisterPanel;
     private javax.swing.JPanel buttonPanel;
     private javax.swing.JPanel infoPanel;
     private javax.swing.JButton loginButton;
@@ -218,7 +220,6 @@ public class LoginPage extends javax.swing.JFrame {
     private javax.swing.JTextField passwordField;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JButton registerButton;
-    private dcoms.client.RegisterPage registerPanel;
     private javax.swing.JTextField usernameField;
     private javax.swing.JLabel usernameLabel;
     // End of variables declaration//GEN-END:variables

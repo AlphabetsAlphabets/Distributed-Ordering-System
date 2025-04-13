@@ -17,10 +17,7 @@ public class RegisterPage extends javax.swing.JPanel {
     /**
      * Creates new form RegisterPage
      */
-    public RegisterPage(JPanel cardPanel, CardLayout cardLayout) {
-        this.cardPanel = cardPanel;
-        this.cardLayout = cardLayout;
-        
+    public RegisterPage() {
         initComponents();
     }
 
@@ -149,7 +146,7 @@ public class RegisterPage extends javax.swing.JPanel {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
-        cardLayout.show(cardPanel, "login panel");
+//        cardLayout.show(cardPanel, "login panel");
     }//GEN-LAST:event_backButtonActionPerformed
 
 

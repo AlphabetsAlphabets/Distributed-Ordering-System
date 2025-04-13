@@ -32,6 +32,8 @@
   <SubComponents>
     <Container class="javax.swing.JPanel" name="mainPanel">
       <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel()"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="CardLayout cardLayout = new CardLayout();"/>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
 
@@ -162,7 +164,7 @@
             </Container>
           </SubComponents>
         </Container>
-        <Component class="dcoms.client.RegisterPage" name="registerPanel">
+        <Component class="dcoms.client.RegisterPage" name="RegisterPanel">
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new dcoms.client.RegisterPage()"/>
           </AuxValues>
