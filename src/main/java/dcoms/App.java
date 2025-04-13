@@ -2,6 +2,7 @@ package dcoms;
 
 import javax.swing.*;
 
+import dcoms.admin.Dashboard;
 import dcoms.client.ClientInterface;
 import dcoms.client.LoginRegisterPage;
 import dcoms.client.OrderPage;
@@ -36,6 +37,7 @@ public class App {
             cardPanel.add(new LoginRegisterPage(cardLayout, cardPanel), "login");
             cardPanel.add(new OrderPage(cardLayout, cardPanel), "order");
             cardPanel.add(new RegistrationPage(cardLayout, cardPanel), "register");
+            cardPanel.add(new Dashboard(cardLayout, cardPanel), "dashboard");
 
             frame.add(cardPanel);
             frame.setVisible(true);
