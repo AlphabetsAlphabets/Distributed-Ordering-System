@@ -2,11 +2,8 @@ package dcoms;
 
 import javax.swing.*;
 
-import dcoms.admin.Dashboard;
 import dcoms.client.ClientInterface;
-import dcoms.client.LoginRegisterPage;
-import dcoms.client.OrderPage;
-import dcoms.client.RegistrationPage;
+import dcoms.client.LoginPage;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -18,7 +15,9 @@ public class App {
 
         // Ensure GUI runs on the Event Dispatch Thread (EDT) - good practice
         javax.swing.SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Login App");
+            JFrame frame = new LoginPage();
+
+            // JFrame frame = new JFrame("Login App");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(400, 300);
             frame.setLocationRelativeTo(null);
@@ -34,10 +33,10 @@ public class App {
             CardLayout cardLayout = new CardLayout();
             JPanel cardPanel = new JPanel(cardLayout);
 
-            cardPanel.add(new LoginRegisterPage(cardLayout, cardPanel), "login");
-            cardPanel.add(new OrderPage(cardLayout, cardPanel), "order");
-            cardPanel.add(new RegistrationPage(cardLayout, cardPanel), "register");
-            cardPanel.add(new Dashboard(cardLayout, cardPanel), "dashboard");
+            // cardPanel.add(new LoginRegisterPage(cardLayout, cardPanel), "login");
+            // cardPanel.add(new OrderPage(cardLayout, cardPanel), "order");
+            // cardPanel.add(new RegistrationPage(cardLayout, cardPanel), "register");
+            // cardPanel.add(new Dashboard(cardLayout, cardPanel), "dashboard");
 
             frame.add(cardPanel);
             frame.setVisible(true);
