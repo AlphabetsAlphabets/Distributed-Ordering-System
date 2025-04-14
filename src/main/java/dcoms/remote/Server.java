@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import dcoms.Database;
+import dcoms.Errors.LoginException;
+import dcoms.Errors.RegisterExecption;
 
 public class Server extends UnicastRemoteObject implements RemoteInterface {
     public Server() throws RemoteException {
@@ -16,7 +18,7 @@ public class Server extends UnicastRemoteObject implements RemoteInterface {
 
     @Override
     public boolean registerUser(String username, char[] password, String phone, String email)
-            throws RemoteException, SQLException {
+            throws RemoteException, SQLException, RegisterExecption {
 
         Connection connection = Database.getConnection();
 
@@ -28,13 +30,14 @@ public class Server extends UnicastRemoteObject implements RemoteInterface {
         stmt.setString(3, phone);
         stmt.setString(4, email);
 
+        // TODO: Handle a few SQL exceptions and convert to RegisterException
         stmt.executeUpdate();
 
         return true;
     }
 
     @Override
-    public boolean loginUser(String username, char[] password) throws RemoteException, SQLException {
+    public boolean loginUser(String username, char[] password) throws RemoteException, SQLException, LoginException {
         Connection connection = Database.getConnection();
 
         String query = "SELECT COUNT(username) as num_users FROM users WHERE username=? AND password=?;";
@@ -47,10 +50,9 @@ public class Server extends UnicastRemoteObject implements RemoteInterface {
         rs.next();
         int count = rs.getInt("num_users");
         if (count > 1) {
-            // TODO: Pass this through the error class
-            return false;
+            throw new LoginException("Multiple user this should not be possible.");
         } else if (count == 0) {
-            return false;
+            throw new LoginException("User doesn't exist.");
         }
 
         return true;
