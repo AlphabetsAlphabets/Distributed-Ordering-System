@@ -22,7 +22,7 @@ public class Server extends UnicastRemoteObject implements RemoteInterface {
 
         Connection connection = Database.getConnection();
 
-        String query = "INSERT INTO users (username, password, phone, email) VALUES (?, ?, ?, ?);";
+        String query = "INSERT INTO users (username, password, phone, email, admin) VALUES (?, ?, ?, ?, 0);";
         PreparedStatement stmt = connection.prepareStatement(query);
 
         stmt.setString(1, username);

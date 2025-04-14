@@ -277,40 +277,49 @@ public class RegisterUI extends javax.swing.JPanel {
                 // TODO add your handling code here:
         }// GEN-LAST:event_emailTxtFieldActionPerformed
 
-        private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_registerButtonActionPerformed
-                // TODO add your handling code here:
-                String username = this.usernameField.getText();
-                String email = this.emailField.getText();
-                String phone = this.phoneField.getText();
-                char[] password = this.passwordField.getPassword();
+        private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {
+            String username = usernameField.getText().trim();
+            char[] password = passwordField.getPassword();
+            String phone = phoneField.getText().trim();
+            String email = emailField.getText().trim();
 
-                if (username.length() <= 0) {
-                        JOptionPane.showMessageDialog(this, "Username field cannot be empty.");
-                        return;
-                } else if (password.length <= 0) {
-                        JOptionPane.showMessageDialog(this, "Password field cannot be empty.");
-                } else if (email.length() <= 0) {
-                        // TODO: Email validation
-                        JOptionPane.showMessageDialog(this, "Email cannot be empty");
+            // Basic validation
+            if (username.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Username field cannot be empty.");
+                return;
+            }
+
+            if (password.length == 0) {
+                JOptionPane.showMessageDialog(this, "Password field cannot be empty.");
+                return;
+            }
+
+            if (phone.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Phone number cannot be empty.");
+                return;
+            }
+
+            if (email.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Email cannot be empty.");
+                return;
+            }
+
+            // Attempt to register user
+            try {
+                var registerUser = ClientInterface.getFunction("registerUser");
+                boolean success = registerUser.registerUser(username, password, phone, email);
+
+                if (success) {
+                    JOptionPane.showMessageDialog(this, "Registration successful!");
+                    cardLayout.show(parentPanel, "login");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Registration failed. Try again.");
                 }
 
-                // TODO: Add check for phone numbers
-                // TODO: Make the register error actually work
-                String errorMsg = "";
-                try {
-                        var registerUser = ClientInterface.getFunction("registerUser");
-                        registerUser.registerUser(username, password, phone, email);
-                } catch (Exception e) {
-                        errorMsg = "Unexpected error: " + e.getMessage();
-                }
-
-                if (errorMsg.length() == 0) {
-                        JOptionPane.showMessageDialog(this, errorMsg);
-                        return;
-                }
-
-                cardLayout.show(parentPanel, "login");
-        }// GEN-LAST:event_registerButtonActionPerformed
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error during registration: " + e.getMessage());
+            }
+        }
 
         private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_backButton1ActionPerformed
                 cardLayout.show(parentPanel, "login");
@@ -336,3 +345,4 @@ public class RegisterUI extends javax.swing.JPanel {
         private javax.swing.JTextField usernameTxtField1;
         // End of variables declaration//GEN-END:variables
 }
+
