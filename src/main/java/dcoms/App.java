@@ -1,7 +1,7 @@
 package dcoms;
 
 import dcoms.client.ClientInterface;
-import dcoms.login.LoginUI;
+import dcoms.client.LoginUI;
 
 public class App {
         public static void main(String[] args) {
