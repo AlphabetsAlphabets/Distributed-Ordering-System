@@ -5,6 +5,7 @@
 package dcoms.client;
 
 import java.awt.CardLayout;
+import java.awt.Container;
 import javax.swing.JPanel;
 
 /**
@@ -146,7 +147,9 @@ public class RegisterPage extends javax.swing.JPanel {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
-//        cardLayout.show(cardPanel, "login panel");
+        Container mainPanel = this.getParent();
+        CardLayout cards = (CardLayout) mainPanel.getLayout();
+        cards.show(mainPanel, "login panel");
     }//GEN-LAST:event_backButtonActionPerformed
 
 
