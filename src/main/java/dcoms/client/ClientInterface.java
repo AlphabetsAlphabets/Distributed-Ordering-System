@@ -15,7 +15,6 @@ public class ClientInterface {
 
     public ClientInterface() {
         rmiString = "rmi://" + dotenv.get("RMI_IP") + ":" + dotenv.get("RMI_PORT") + "/";
-        System.out.println(rmiString);
     }
 
     public static RemoteInterface getFunction(String name)
