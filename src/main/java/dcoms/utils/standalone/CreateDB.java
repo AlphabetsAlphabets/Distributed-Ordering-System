@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class CreateDB {
     public static void main(String[] args) {
-        String url = "jdbc:postgresql://localhost:5432/mydb";
+        String url = "jdbc:postgresql://localhost:5432/dcom_db";
         String db_user = "star"; // user must have CREATEDB privilege.
         String password = "1234";
 
@@ -35,9 +35,11 @@ public class CreateDB {
 
             String[][] users = {
                     { "Jayden", "1234", "0111111111", "jayden@gmail.com", "1" },
+                    { "admin", "admin", "033333335633", "admin@gmail.com", "1" },
                     { "Brayden", "1234", "0123456789", "brayden@gmail.com", "0" },
                     { "Kayden", "1234", "02222222222", "kayden@gmail.com", "0" },
                     { "Okayden", "1234", "03333333333", "okayden@gmail.com", "0" },
+                    { "client", "client", "0125436556", "client@gmail.com", "0" },
             };
 
             for (String[] user : users) {
