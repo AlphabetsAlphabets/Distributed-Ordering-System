@@ -125,7 +125,7 @@ public class AdminDashboardUI extends javax.swing.JPanel {
     }//GEN-LAST:event_editMenuBtnActionPerformed
 
     private void orderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orderBtnActionPerformed
-        // TODO add your handling code here:
+        cardLayout.show(parentPanel, "orderTracking");
     }//GEN-LAST:event_orderBtnActionPerformed
 
     private void signOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutBtnActionPerformed

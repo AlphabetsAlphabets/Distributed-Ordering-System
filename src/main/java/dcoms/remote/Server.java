@@ -35,6 +35,23 @@ public class Server extends UnicastRemoteObject implements RemoteInterface {
 
         return true;
     }
+    
+    @Override
+    public int getUserRole(String username) throws RemoteException, SQLException {
+        Connection connection = Database.getConnection();
+
+        String query = "SELECT admin FROM users WHERE username = ?;";
+        PreparedStatement stmt = connection.prepareStatement(query);
+        stmt.setString(1, username);
+
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("admin"); // 1 = admin, 0 = client
+        }
+
+        throw new SQLException("User not found when fetching role.");
+    }
+
 
     @Override
     public boolean loginUser(String username, char[] password) throws RemoteException, SQLException, LoginException {
@@ -52,7 +69,7 @@ public class Server extends UnicastRemoteObject implements RemoteInterface {
         if (count > 1) {
             throw new LoginException("Multiple user this should not be possible.");
         } else if (count == 0) {
-            throw new LoginException("User doesn't exist.");
+            throw new LoginException("Username or Password is wrong.");
         }
 
         return true;
