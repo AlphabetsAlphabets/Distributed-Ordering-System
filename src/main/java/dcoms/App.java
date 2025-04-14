@@ -1,45 +1,17 @@
 package dcoms;
 
-import javax.swing.*;
-
 import dcoms.client.ClientInterface;
-import dcoms.client.LoginPage;
-
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import dcoms.login.LoginUI;
 
 public class App {
-    public static void main(String[] args) {
-        new ClientInterface("localhost", 1040);
+        public static void main(String[] args) {
+                new ClientInterface("localhost", 1040);
 
-        // Ensure GUI runs on the Event Dispatch Thread (EDT) - good practice
-        javax.swing.SwingUtilities.invokeLater(() -> {
-            JFrame frame = new LoginPage();
-
-            // JFrame frame = new JFrame("Login App");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(400, 300);
-            frame.setLocationRelativeTo(null);
-
-            frame.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent e) {
-                    Database.disconnect();
-                    e.getWindow().dispose();
-                }
-            });
-
-            CardLayout cardLayout = new CardLayout();
-            JPanel cardPanel = new JPanel(cardLayout);
-
-            // cardPanel.add(new LoginRegisterPage(cardLayout, cardPanel), "login");
-            // cardPanel.add(new OrderPage(cardLayout, cardPanel), "order");
-            // cardPanel.add(new RegistrationPage(cardLayout, cardPanel), "register");
-            // cardPanel.add(new Dashboard(cardLayout, cardPanel), "dashboard");
-
-            frame.add(cardPanel);
-            frame.setVisible(true);
-        });
-    }
+                // Ensure GUI runs on the Event Dispatch Thread (EDT) - good practice
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                        LoginUI loginFrame = new LoginUI();
+                        loginFrame.setLocationRelativeTo(null); // Center window
+                        loginFrame.setVisible(true);
+                });
+        }
 }
