@@ -44,6 +44,7 @@ public class LoginPage extends javax.swing.JFrame {
         registerButton = new javax.swing.JButton();
         loginButton = new javax.swing.JButton();
         RegisterPanel = new dcoms.client.RegisterPage();
+        OrderPanel = new dcoms.client.OrderPage();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(500, 500));
@@ -137,6 +138,7 @@ public class LoginPage extends javax.swing.JFrame {
 
         mainPanel.add(LoginPanel, "login panel");
         mainPanel.add(RegisterPanel, "register panel");
+        mainPanel.add(OrderPanel, "order panel");
 
         getContentPane().add(mainPanel);
 
@@ -160,7 +162,7 @@ public class LoginPage extends javax.swing.JFrame {
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
         CardLayout card = (CardLayout) mainPanel.getLayout();
-        card.show(mainPanel, "user panel");
+        card.show(mainPanel, "order panel");
     }// GEN-LAST:event_loginButtonActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {// GEN-FIRST:event_formWindowClosing
@@ -211,6 +213,7 @@ public class LoginPage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel LoginPanel;
+    private dcoms.client.OrderPage OrderPanel;
     private dcoms.client.RegisterPage RegisterPanel;
     private javax.swing.JPanel buttonPanel;
     private javax.swing.JPanel infoPanel;

@@ -13,8 +13,6 @@ import javax.swing.JPanel;
  * @author star
  */
 public class RegisterPage extends javax.swing.JPanel {
-    JPanel cardPanel;
-    CardLayout cardLayout;
     /**
      * Creates new form RegisterPage
      */
