@@ -9,7 +9,7 @@ public class App {
 
         Env.loadEnv();
         new ClientInterface();
-
+        
 
         // Ensure GUI runs on the Event Dispatch Thread (EDT) - good practice
         javax.swing.SwingUtilities.invokeLater(() -> {
