@@ -211,6 +211,7 @@ public class LoginUI extends javax.swing.JFrame {
             if (role == 1) {
                 cardLayout.show(cardPanel, "admin");
             } else if (role == 0) {
+                cardLayout.show(cardPanel,"clientOrder");
             } else {
                 JOptionPane.showMessageDialog(this, "Unknown user role");
             }

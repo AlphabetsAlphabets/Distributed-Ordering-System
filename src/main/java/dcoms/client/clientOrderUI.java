@@ -221,11 +221,11 @@ public class clientOrderUI extends javax.swing.JPanel {
 
                                     
     private void food3BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_food3BtnActionPerformed
-        // TODO add your handling code here:
+        handleOrder(food3Btn.getText()); 
     }//GEN-LAST:event_food3BtnActionPerformed
 
     private void food4BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_food4BtnActionPerformed
-        // TODO add your handling code here:
+        handleOrder(food4Btn.getText()); 
 
     }//GEN-LAST:event_food4BtnActionPerformed
 
