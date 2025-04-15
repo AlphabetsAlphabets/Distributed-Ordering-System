@@ -6,17 +6,16 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 import dcoms.remote.RemoteInterface;
+import dcoms.utils.Env;
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class ClientInterface {
     private static String rmiString;
-    private static Dotenv dotenv = Env.env;   
-    
-     
+
+    private static Dotenv dotenv = Env.env;
+
     public ClientInterface() {
-        // Constructor is now just for creating instances if needed
-        if (rmiString == null && dotenv != null) {
-            rmiString = "rmi://" + dotenv.get("RMI_IP") + ":" + dotenv.get("RMI_PORT") + "/";
-        }
+        rmiString = "rmi://" + dotenv.get("RMI_IP") + ":" + dotenv.get("RMI_PORT") + "/";
 
     }
 

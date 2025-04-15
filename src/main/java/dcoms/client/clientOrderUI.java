@@ -16,13 +16,15 @@ import dcoms.Database;
 
 public class clientOrderUI extends javax.swing.JPanel {
 
-    private CardLayout cardLayout;
-    private JPanel parentPanel;
-    private List<String> foodNames;
+    private final CardLayout cardLayout;
+    private final JPanel parentPanel;
+    private final List<String> foodNames;
+
 
     public clientOrderUI(CardLayout cardLayout, JPanel parentPanel) {
         this.cardLayout = cardLayout;
         this.parentPanel = parentPanel;
+
         this.foodNames = new ArrayList<>();
         initComponents();
         loadFoodNames();
@@ -81,6 +83,8 @@ public class clientOrderUI extends javax.swing.JPanel {
                 "Database Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
+
+        initComponents();
     }
 
     @SuppressWarnings("unchecked")
@@ -124,12 +128,6 @@ public class clientOrderUI extends javax.swing.JPanel {
 
         food1Btn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         food1Btn.setText("Food 1");
-        food1Btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                food1BtnActionPerformed(evt);
-            }
-        });
-
         food2Btn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         food2Btn.setText("Food 2");
         food2Btn.addActionListener(new java.awt.event.ActionListener() {
@@ -217,23 +215,26 @@ public class clientOrderUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void food2BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_food2BtnActionPerformed
+
           handleOrder(food2Btn.getText()); 
     }//GEN-LAST:event_food2BtnActionPerformed
 
+                                    
     private void food3BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_food3BtnActionPerformed
-        // TODO add your handling code here:       
-         handleOrder(food3Btn.getText()); 
+        // TODO add your handling code here:
     }//GEN-LAST:event_food3BtnActionPerformed
 
     private void food4BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_food4BtnActionPerformed
-          handleOrder(food4Btn.getText());       
+        // TODO add your handling code here:
+
     }//GEN-LAST:event_food4BtnActionPerformed
 
     private void signOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutBtnActionPerformed
         cardLayout.show(parentPanel, "login");
     }//GEN-LAST:event_signOutBtnActionPerformed
 
-    private void food1BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_food1BtnActionPerformed
+
+    private void food1BtnActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
         handleOrder(food1Btn.getText());    
 }
@@ -334,6 +335,7 @@ public class clientOrderUI extends javax.swing.JPanel {
     }
 }
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton food1Btn;
     private javax.swing.JButton food2Btn;
@@ -345,4 +347,7 @@ public class clientOrderUI extends javax.swing.JPanel {
     private javax.swing.JButton signOutBtn;
     // End of variables declaration//GEN-END:variables
 
+
 }
+
+

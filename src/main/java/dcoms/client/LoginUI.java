@@ -11,8 +11,6 @@ public class LoginUI extends javax.swing.JFrame {
 
     private CardLayout cardLayout;
     private JPanel cardPanel;
-    private Object dcoms;
-
     public LoginUI() {
         setTitle("DCOM"); // Window title
         setSize(650, 500); // Fixed size
@@ -36,11 +34,8 @@ public class LoginUI extends javax.swing.JFrame {
         
         cardPanel.add(new dcoms.client.clientOrderUI(cardLayout, cardPanel), "clientOrder");
         
-        // Add FoodQtyUI to the card layout
-       
-        
-    }
 
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
@@ -216,10 +211,6 @@ public class LoginUI extends javax.swing.JFrame {
             if (role == 1) {
                 cardLayout.show(cardPanel, "admin");
             } else if (role == 0) {
-                // Pass the username to the clientOrderUI
-                cardLayout.show(cardPanel, "clientOrder");
-                
-        
             } else {
                 JOptionPane.showMessageDialog(this, "Unknown user role");
             }

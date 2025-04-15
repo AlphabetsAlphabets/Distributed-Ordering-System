@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import dcoms.Database;
+import dcoms.Errors.LoginException;
+import dcoms.Errors.RegisterExecption;
 
 public class Server extends UnicastRemoteObject implements RemoteInterface {
     public Server() throws RemoteException {
@@ -16,7 +18,7 @@ public class Server extends UnicastRemoteObject implements RemoteInterface {
 
     @Override
     public boolean registerUser(String username, char[] password, String phone, String email)
-            throws RemoteException, SQLException {
+            throws RemoteException, SQLException, RegisterExecption {
 
         Connection connection = Database.getConnection();
 
@@ -28,41 +30,48 @@ public class Server extends UnicastRemoteObject implements RemoteInterface {
         stmt.setString(3, phone);
         stmt.setString(4, email);
 
+        // TODO: Handle a few SQL exceptions and convert to RegisterException
         stmt.executeUpdate();
 
         return true;
     }
-
+    
     @Override
-    public boolean loginUser(String username, char[] password) throws RemoteException, SQLException {
+    public int getUserRole(String username) throws RemoteException, SQLException {
         Connection connection = Database.getConnection();
 
-        String query = "SELECT COUNT(username) FROM users WHERE username=? AND password=?;";
+        String query = "SELECT admin FROM users WHERE username = ?;";
+        PreparedStatement stmt = connection.prepareStatement(query);
+        stmt.setString(1, username);
+
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("admin"); // 1 = admin, 0 = client
+        }
+
+        throw new SQLException("User not found when fetching role.");
+    }
+
+
+    @Override
+    public boolean loginUser(String username, char[] password) throws RemoteException, SQLException, LoginException {
+        Connection connection = Database.getConnection();
+
+        String query = "SELECT COUNT(username) as num_users FROM users WHERE username=? AND password=?;";
         PreparedStatement stmt = connection.prepareStatement(query);
 
         stmt.setString(1, username);
         stmt.setString(2, new String(password));
 
         ResultSet rs = stmt.executeQuery();
-        System.out.println("Attempting login for user: " + username);
-        
-        if (rs.next()) {
-            int count = rs.getInt(1); // Use column index instead of name
-            System.out.println("Found " + count + " matching users");
-            
-            if (count > 1) {
-                System.out.println("Multiple users found with same credentials!");
-                return false;
-            } else if (count == 1) {
-                System.out.println("Login successful");
-                return true;
-            } else {
-                System.out.println("No matching users found");
-                return false;
-            }
+        rs.next();
+        int count = rs.getInt("num_users");
+        if (count > 1) {
+            throw new LoginException("Multiple user this should not be possible.");
+        } else if (count == 0) {
+            throw new LoginException("Username or Password is wrong.");
         }
-        
-        System.out.println("No results returned from query");
-        return false;
+
+        return true;
     }
 }
