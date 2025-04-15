@@ -13,7 +13,13 @@ import java.awt.event.WindowEvent;
 
 public class App {
     public static void main(String[] args) {
+<<<<<<< Updated upstream
         new ClientInterface("localhost", 1040);
+=======
+        Env.loadEnv();
+        new ClientInterface();
+        
+>>>>>>> Stashed changes
 
         // Ensure GUI runs on the Event Dispatch Thread (EDT) - good practice
         javax.swing.SwingUtilities.invokeLater(() -> {
