@@ -8,8 +8,8 @@ import java.sql.SQLException;
 
 public class CreateDB {
     public static void main(String[] args) {
-        String url = "jdbc:postgresql://localhost:5432/dcom_db";
-        String db_user = "star"; // user must have CREATEDB privilege.
+        String url = "jdbc:postgresql://localhost:5432/dcom";
+        String db_user = "postgres"; // user must have CREATEDB privilege.
         String password = "1234";
 
         String createTableSQL = "CREATE TABLE IF NOT EXISTS users ("

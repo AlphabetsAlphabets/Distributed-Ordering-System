@@ -155,6 +155,8 @@ public class clientOrderUI extends javax.swing.JPanel {
     }//GEN-LAST:event_food4BtnActionPerformed
 
     private void signOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutBtnActionPerformed
+        dcoms.utils.SessionUtil.clearSession();
+
         cardLayout.show(parentPanel, "login");
     }//GEN-LAST:event_signOutBtnActionPerformed
 

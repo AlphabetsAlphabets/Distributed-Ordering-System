@@ -5,7 +5,9 @@ import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import dcoms.UserSession;
 import dcoms.Errors.LoginException;
+import dcoms.utils.SessionUtil;
 
 public class LoginUI extends javax.swing.JFrame {
 
@@ -163,6 +165,24 @@ public class LoginUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void autoLogin(String username) {
+        try {
+            var loginUser = ClientInterface.getFunction("loginUser");
+            int role = loginUser.getUserRole(username);
+    
+            // Show correct dashboard through existing CardLayout setup
+            if (role == 1) {
+                cardLayout.show(cardPanel, "admin");
+            } else if (role == 0) {
+                cardLayout.show(cardPanel, "clientOrder");
+            } else {
+                JOptionPane.showMessageDialog(this, "Unknown user role");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Auto-login failed: " + e.getMessage());
+        }
+    }
+
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_registerButtonActionPerformed
         cardLayout.show(cardPanel, "register");
     }// GEN-LAST:event_registerButtonActionPerformed
@@ -209,6 +229,8 @@ public class LoginUI extends javax.swing.JFrame {
         if (!loginSuccessful) {
             JOptionPane.showMessageDialog(this, message);
         } else {
+            SessionUtil.saveSession(new UserSession(username));
+
             if (role == 1) {
                 cardLayout.show(cardPanel, "admin");
             } else if (role == 0) {
