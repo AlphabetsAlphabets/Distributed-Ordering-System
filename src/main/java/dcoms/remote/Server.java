@@ -7,9 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import dcoms.Database;
 import dcoms.Errors.LoginException;
 import dcoms.Errors.RegisterExecption;
+import dcoms.utils.Database;
 
 public class Server extends UnicastRemoteObject implements RemoteInterface {
     public Server() throws RemoteException {
@@ -35,7 +35,7 @@ public class Server extends UnicastRemoteObject implements RemoteInterface {
 
         return true;
     }
-    
+
     @Override
     public int getUserRole(String username) throws RemoteException, SQLException {
         Connection connection = Database.getConnection();
@@ -51,7 +51,6 @@ public class Server extends UnicastRemoteObject implements RemoteInterface {
 
         throw new SQLException("User not found when fetching role.");
     }
-
 
     @Override
     public boolean loginUser(String username, char[] password) throws RemoteException, SQLException, LoginException {
