@@ -254,7 +254,7 @@ public class clientOrderUI extends javax.swing.JPanel {
     private void handleOrder(String foodName) {
     int availableQuantity = 0;
 
-    // Initial stock check before showing spinner
+    // Initial stock check
     try {
         Connection conn = Database.getConnection();
         String checkQuery = "SELECT quantity FROM food WHERE food_name = ?";
@@ -284,7 +284,7 @@ public class clientOrderUI extends javax.swing.JPanel {
         return;
     }
 
-    // Create spinner with quantity limits
+    // Spinner for quantity selection
     SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, 1, availableQuantity, 1);
     JSpinner quantitySpinner = new JSpinner(spinnerModel);
 
@@ -306,40 +306,36 @@ public class clientOrderUI extends javax.swing.JPanel {
         try {
             Connection conn = Database.getConnection();
 
-            // Recheck stock after user selects quantity
-            String recheckQuery = "SELECT quantity FROM food WHERE food_name = ?";
-            PreparedStatement recheckStmt = conn.prepareStatement(recheckQuery);
-            recheckStmt.setString(1, foodName);
-            ResultSet rs = recheckStmt.executeQuery();
+            // Atomic update: Only subtract quantity IF current stock is enough
+            String updateQuery = "UPDATE food SET quantity = quantity - ? WHERE food_name = ? AND quantity >= ?";
+            PreparedStatement updateStmt = conn.prepareStatement(updateQuery);
+            updateStmt.setInt(1, quantity);
+            updateStmt.setString(2, foodName);
+            updateStmt.setInt(3, quantity);
 
-            if (rs.next()) {
-                int currentStock = rs.getInt("quantity");
+            int updated = updateStmt.executeUpdate();
 
-                if (currentStock >= quantity) {
-                    // Process order
-                    String updateQuery = "UPDATE food SET quantity = quantity - ? WHERE food_name = ?";
-                    PreparedStatement updateStmt = conn.prepareStatement(updateQuery);
-                    updateStmt.setInt(1, quantity);
-                    updateStmt.setString(2, foodName);
-                    int updated = updateStmt.executeUpdate();
-
-                    if (updated > 0) {
-                        JOptionPane.showMessageDialog(this,
-                                "You ordered " + quantity + " of " + foodName + "!\nOrder successful!");
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Error processing your order.", "Order Error",
-                                JOptionPane.ERROR_MESSAGE);
-                    }
-                } else {
-                    // ❗ Show error if selected quantity > current stock
-                    JOptionPane.showMessageDialog(this,
-                            "Sorry, only " + currentStock + " " + foodName + " available.",
-                            "Not Enough Stock",
-                            JOptionPane.WARNING_MESSAGE);
-                }
+            if (updated > 0) {
+                JOptionPane.showMessageDialog(this,
+                        "You ordered " + quantity + " of " + foodName + "!\nOrder successful!");
             } else {
-                JOptionPane.showMessageDialog(this, "Food item not found in database.", "Order Error",
-                        JOptionPane.ERROR_MESSAGE);
+                // If no row was updated, stock was changed or insufficient
+                // Get the latest available stock to show a message
+                String recheckQuery = "SELECT quantity FROM food WHERE food_name = ?";
+                PreparedStatement recheckStmt = conn.prepareStatement(recheckQuery);
+                recheckStmt.setString(1, foodName);
+                ResultSet rs = recheckStmt.executeQuery();
+
+                if (rs.next()) {
+                    int currentStock = rs.getInt("quantity");
+                    JOptionPane.showMessageDialog(this,
+                            "Sorry, only " + currentStock + " " + foodName + " available.\nYour transaction was cancelled.",
+                            "Order Cancelled",
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Food item not found in database.", "Order Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Order Error",
@@ -348,6 +344,7 @@ public class clientOrderUI extends javax.swing.JPanel {
         }
     }
 }
+
 
 // GEN-LAST:event_food1BtnActionPerformed
 
