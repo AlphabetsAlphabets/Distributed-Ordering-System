@@ -3,14 +3,15 @@ package dcoms;
 import dcoms.client.ClientInterface;
 import dcoms.client.LoginUI;
 import dcoms.utils.Env;
-import dcoms.utils.SessionUtil;
+import dcoms.utils.Session;
+import dcoms.utils.UserSession;
 
 public class App {
     public static void main(String[] args) {
         Env.loadEnv();
         new ClientInterface();
 
-        UserSession session = SessionUtil.loadSession();
+        UserSession session = Session.loadSession();
 
         javax.swing.SwingUtilities.invokeLater(() -> {
             LoginUI loginFrame = new LoginUI(); // Always show LoginUI
