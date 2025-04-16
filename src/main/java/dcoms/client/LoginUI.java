@@ -5,9 +5,8 @@ import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import dcoms.UserSession;
 import dcoms.Errors.LoginException;
-import dcoms.utils.SessionUtil;
+import dcoms.utils.Session;
 
 public class LoginUI extends javax.swing.JFrame {
 
