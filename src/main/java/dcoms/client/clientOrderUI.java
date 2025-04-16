@@ -1,17 +1,88 @@
 package dcoms.client;
 
 import java.awt.CardLayout;
+import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import dcoms.utils.Database;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 public class clientOrderUI extends javax.swing.JPanel {
 
     private CardLayout cardLayout;
     private JPanel parentPanel;
+    private List<String> foodNames;
 
     public clientOrderUI(CardLayout cardLayout, JPanel parentPanel) {
         this.cardLayout = cardLayout;
         this.parentPanel = parentPanel;
+        this.foodNames = new ArrayList<>();
         initComponents();
+        loadFoodNames();
+    }
+
+    private void loadFoodNames() {
+        try {
+            Connection conn = Database.getConnection();
+            String query = "SELECT food_name FROM food ORDER BY food_id ASC LIMIT 4";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+
+            int buttonIndex = 0;
+            while (rs.next() && buttonIndex < 4) {
+                String foodName = rs.getString("food_name");
+                foodNames.add(foodName);
+
+                // Update button text with food name from database
+                switch (buttonIndex) {
+                    case 0:
+                        food1Btn.setText(foodName);
+                        break;
+                    case 1:
+                        food2Btn.setText(foodName);
+                        break;
+                    case 2:
+                        food3Btn.setText(foodName);
+                        break;
+                    case 3:
+                        food4Btn.setText(foodName);
+                        break;
+                }
+                buttonIndex++;
+            }
+
+            // If fewer than 4 food items were found, disable unused buttons
+            if (buttonIndex < 4) {
+                switch (buttonIndex) {
+                    case 0:
+                        food1Btn.setEnabled(false);
+                        // fallthrough intentional
+                    case 1:
+                        food2Btn.setEnabled(false);
+                        // fallthrough intentional
+                    case 2:
+                        food3Btn.setEnabled(false);
+                        // fallthrough intentional
+                    case 3:
+                        food4Btn.setEnabled(false);
+                        break;
+                }
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error loading food names: " + e.getMessage(),
+                    "Database Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -56,6 +127,11 @@ public class clientOrderUI extends javax.swing.JPanel {
 
         food1Btn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         food1Btn.setText("Food 1");
+        food1Btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                food1BtnActionPerformed(evt);
+            }
+        });
 
         food2Btn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         food2Btn.setText("Food 2");
@@ -152,23 +228,128 @@ public class clientOrderUI extends javax.swing.JPanel {
                                 .addGap(0, 0, Short.MAX_VALUE)));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void food2BtnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_food2BtnActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_food2BtnActionPerformed
+    private void food2BtnActionPerformed(java.awt.event.ActionEvent evt) {
+        handleOrder(food2Btn.getText());
+    }
 
     private void food3BtnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_food3BtnActionPerformed
         // TODO add your handling code here:
+        handleOrder(food3Btn.getText());
     }// GEN-LAST:event_food3BtnActionPerformed
 
     private void food4BtnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_food4BtnActionPerformed
-        // TODO add your handling code here:
+        handleOrder(food4Btn.getText());
+
     }// GEN-LAST:event_food4BtnActionPerformed
 
-    private void signOutBtnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_signOutBtnActionPerformed
-        dcoms.utils.Session.clearSession();
-
+    private void signOutBtnActionPerformed(java.awt.event.ActionEvent evt) {
         cardLayout.show(parentPanel, "login");
-    }// GEN-LAST:event_signOutBtnActionPerformed
+    }
+
+    private void food1BtnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_food1BtnActionPerformed
+        // TODO add your handling code here:
+        handleOrder(food1Btn.getText());
+    }
+
+    private void handleOrder(String foodName) {
+    // Get database connection to check if item is in stock before showing quantity dialog
+    int availableQuantity = 0;
+    try {
+        Connection conn = Database.getConnection();
+        String checkQuery = "SELECT quantity FROM food WHERE food_name = ?";
+        PreparedStatement checkStmt = conn.prepareStatement(checkQuery);
+        checkStmt.setString(1, foodName);
+        ResultSet rs = checkStmt.executeQuery();
+
+        if (rs.next()) {
+            availableQuantity = rs.getInt("quantity");
+
+            if (availableQuantity <= 0) {
+                JOptionPane.showMessageDialog(this,
+                        foodName + " is out of stock!",
+                        "Out of Stock",
+                        JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Food item not found in database.", "Order Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Error",
+                JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+        return;
+    }
+
+    // Create the quantity spinner (1 to availableQuantity)
+    SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, 1, availableQuantity, 1);
+    JSpinner quantitySpinner = new JSpinner(spinnerModel);
+
+    // Create a panel to hold the message and spinner
+    JPanel panel = new JPanel();
+    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+    panel.add(new JLabel("Select quantity for " + foodName + ":"));
+    panel.add(quantitySpinner);
+
+    // Show confirm dialog
+    int result = JOptionPane.showConfirmDialog(
+            this,
+            panel,
+            foodName + " Order",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.PLAIN_MESSAGE);
+
+    // If OK was clicked
+    if (result == JOptionPane.OK_OPTION) {
+        int quantity = (Integer) quantitySpinner.getValue();
+
+        // Update the food quantity in the database
+        try {
+            Connection conn = Database.getConnection();
+
+            // Re-check quantity in case it changed
+            String recheckQuery = "SELECT quantity FROM food WHERE food_name = ?";
+            PreparedStatement recheckStmt = conn.prepareStatement(recheckQuery);
+            recheckStmt.setString(1, foodName);
+            ResultSet rs = recheckStmt.executeQuery();
+
+            if (rs.next()) {
+                int currentStock = rs.getInt("quantity");
+
+                if (currentStock >= quantity) {
+                    // Update the quantity
+                    String updateQuery = "UPDATE food SET quantity = quantity - ? WHERE food_name = ?";
+                    PreparedStatement updateStmt = conn.prepareStatement(updateQuery);
+                    updateStmt.setInt(1, quantity);
+                    updateStmt.setString(2, foodName);
+                    int updated = updateStmt.executeUpdate();
+
+                    if (updated > 0) {
+                        JOptionPane.showMessageDialog(this,
+                                "You ordered " + quantity + " of " + foodName + "!\nOrder successful!");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Error processing your order.", "Order Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                            "Sorry, only " + currentStock + " " + foodName + " available.",
+                            "Limited Stock", JOptionPane.WARNING_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Food item not found in database.", "Order Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Order Error",
+                    JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+}
+// GEN-LAST:event_food1BtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton food1Btn;
@@ -180,4 +361,5 @@ public class clientOrderUI extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton signOutBtn;
     // End of variables declaration//GEN-END:variables
+
 }

@@ -17,11 +17,14 @@ public class Database {
         if (connected)
             return;
 
+
+
         String url = "jdbc:postgresql://" + dotenv.get("DB_IP") + ":" + dotenv.get("DB_PORT") + "/"
                 + dotenv.get("DB_NAME");
 
         try {
             conn = DriverManager.getConnection(url, dotenv.get("DB_USER"), dotenv.get("DB_PASSWORD"));
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

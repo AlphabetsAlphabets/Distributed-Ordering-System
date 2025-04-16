@@ -8,6 +8,7 @@ import dcoms.utils.UserSession;
 
 public class App {
     public static void main(String[] args) {
+
         Env.loadEnv();
         new ClientInterface();
 
