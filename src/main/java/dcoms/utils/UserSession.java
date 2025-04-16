@@ -1,4 +1,4 @@
-package dcoms;
+package dcoms.utils;
 
 import java.io.Serializable;
 
