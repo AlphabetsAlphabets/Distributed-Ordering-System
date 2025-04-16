@@ -1,6 +1,9 @@
 package dcoms.utils.standalone;
 
 import java.sql.Statement;
+
+import io.github.cdimascio.dotenv.Dotenv;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,9 +11,12 @@ import java.sql.SQLException;
 
 public class CreateDB {
     public static void main(String[] args) {
-        String url = "jdbc:postgresql://localhost:5432/dcom_db";
-        String db_user = "star"; // user must have CREATEDB privilege.
-        String password = "1234";
+        Dotenv dotenv = Dotenv.load();
+
+        String url = "jdbc:postgresql://" + dotenv.get("DB_IP") + ":" + dotenv.get("DB_PORT") + "/"
+                + dotenv.get("DB_NAME");
+        String db_user = dotenv.get("DB_USER");
+        String password = dotenv.get("DB_PASSOWRD");
 
         String createTableSQL = "CREATE TABLE IF NOT EXISTS users ("
                 + "id SERIAL PRIMARY KEY,"
