@@ -11,7 +11,6 @@ public class App {
 
         Env.loadEnv();
         new ClientInterface();
-        
 
         UserSession session = Session.loadSession();
 
