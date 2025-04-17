@@ -1,20 +1,32 @@
 package dcoms.client;
 
 import java.awt.CardLayout;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.BoxLayout;
-import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import javax.swing.JSpinner;
+import javax.swing.JSpinner.DefaultEditor;
+import javax.swing.SpinnerNumberModel;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import java.text.ParseException;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import dcoms.utils.Database;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 
 public class clientOrderUI extends javax.swing.JPanel {
 
