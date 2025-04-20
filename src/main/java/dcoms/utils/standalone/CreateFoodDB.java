@@ -31,6 +31,22 @@ public class CreateFoodDB {
             Statement s = conn.createStatement();
             s.execute(createTableSQL);
             System.out.println("Food table created successfully.");
+
+
+            String createOrdersTableSQL = "CREATE TABLE IF NOT EXISTS orders (" +
+                "username TEXT NOT NULL, " +
+                "order_id SERIAL PRIMARY KEY, " +
+                "food_id INTEGER NOT NULL REFERENCES food(food_id), " +
+                "food_name TEXT NOT NULL, " +
+                "quantity INTEGER NOT NULL, " +
+                "price DECIMAL(10, 2) NOT NULL, " + // NEW
+                "total_price DECIMAL(10, 2) NOT NULL, " + // NEW
+                "order_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
+            ");";
+
+            Statement orderStmt = conn.createStatement();
+            orderStmt.execute(createOrdersTableSQL);
+            System.out.println("Orders table created successfully.");
         } catch (SQLException e) {
             System.err.println("Error creating food table: " + e.getMessage());
         }
