@@ -4,6 +4,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 import dcoms.utils.Env;
+
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class Register {
