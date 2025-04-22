@@ -73,4 +73,9 @@ public class Server extends UnicastRemoteObject implements RemoteInterface {
 
         return true;
     }
+    
+    @Override
+    public boolean ping() throws RemoteException {
+        return true;
+    }
 }

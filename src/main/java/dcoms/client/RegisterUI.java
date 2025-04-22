@@ -298,8 +298,7 @@ public class RegisterUI extends javax.swing.JPanel {
                 // TODO: Make the register error actually work
                 String errorMsg = "";
                 try {
-                        var registerUser = ClientInterface.getFunction("registerUser");
-                        registerUser.registerUser(username, password, phone, email);
+                        ClientInterface.getFunction().registerUser(username, password, phone, email);
                 } catch (Exception e) {
                         errorMsg = "Unexpected error: " + e.getMessage();
                 }

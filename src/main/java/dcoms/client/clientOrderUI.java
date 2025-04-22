@@ -40,6 +40,7 @@ public class clientOrderUI extends javax.swing.JPanel {
         this.foodNames = new ArrayList<>();
         initComponents();
         loadFoodNames();
+        startConnectionMonitor();
     }
 
     private void loadFoodNames() {
@@ -97,7 +98,39 @@ public class clientOrderUI extends javax.swing.JPanel {
         }
     }
 
+    private void startConnectionMonitor() {
+        new Thread(() -> {
+            while (true) {
+                boolean connected = testServerConnection();
+
+                // update status panel colour
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                    statusPanel.setBackground(connected ? java.awt.Color.GREEN : java.awt.Color.RED);
+                    statusPanel.repaint();
+                });
+
+                try {
+                    Thread.sleep(5000); // check every 5s
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    private boolean testServerConnection() {
+        try {
+            boolean result = ClientInterface.getFunction().ping();
+            System.out.println("Ping success: " + result);
+            return result;
+        } catch (Exception e) {
+            System.out.println("Ping failed: " + e.getMessage());
+            return false;
+        }
+    }
+
     @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -110,6 +143,7 @@ public class clientOrderUI extends javax.swing.JPanel {
         food3Btn = new javax.swing.JButton();
         food4Btn = new javax.swing.JButton();
         signOutBtn = new javax.swing.JButton();
+        statusPanel = new javax.swing.JPanel();
 
         jPanel1.setPreferredSize(new java.awt.Dimension(650, 500));
 
@@ -178,6 +212,19 @@ public class clientOrderUI extends javax.swing.JPanel {
             }
         });
 
+        statusPanel.setBackground(java.awt.Color.lightGray);
+        statusPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        statusPanel.setPreferredSize(new java.awt.Dimension(20, 20));
+
+        javax.swing.GroupLayout statusPanelLayout = new javax.swing.GroupLayout(statusPanel);
+        statusPanel.setLayout(statusPanelLayout);
+        statusPanelLayout.setHorizontalGroup(
+                statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 18, Short.MAX_VALUE));
+        statusPanelLayout.setVerticalGroup(
+                statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 18, Short.MAX_VALUE));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -199,7 +246,11 @@ public class clientOrderUI extends javax.swing.JPanel {
                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap(124, Short.MAX_VALUE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap()
+                                .addComponent(statusPanel, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(signOutBtn)
                                 .addGap(20, 20, 20)));
         jPanel1Layout.setVerticalGroup(
@@ -207,21 +258,32 @@ public class clientOrderUI extends javax.swing.JPanel {
                         .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE,
                                         javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(31, 31, 31)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(food1Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 146,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(food2Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 146,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(31, 31, 31)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(food3Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 146,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(food4Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 146,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                                .addComponent(signOutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 32,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(31, 31, 31)
+                                                .addGroup(jPanel1Layout
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(food1Btn, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(food2Btn, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(31, 31, 31)
+                                                .addGroup(jPanel1Layout
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(food3Btn, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(food4Btn, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9,
+                                                        Short.MAX_VALUE)
+                                                .addComponent(signOutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 32,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(statusPanel, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addContainerGap()));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -240,6 +302,10 @@ public class clientOrderUI extends javax.swing.JPanel {
                                 .addGap(0, 0, Short.MAX_VALUE)));
     }// </editor-fold>//GEN-END:initComponents
 
+    private void food1BtnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_food1BtnActionPerformed
+        handleOrder(food1Btn.getText());
+    }// GEN-LAST:event_food1BtnActionPerformed
+
     private void food2BtnActionPerformed(java.awt.event.ActionEvent evt) {
         handleOrder(food2Btn.getText());
     }
@@ -256,11 +322,6 @@ public class clientOrderUI extends javax.swing.JPanel {
 
     private void signOutBtnActionPerformed(java.awt.event.ActionEvent evt) {
         cardLayout.show(parentPanel, "login");
-    }
-
-    private void food1BtnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_food1BtnActionPerformed
-        // TODO add your handling code here:
-        handleOrder(food1Btn.getText());
     }
 
     private void handleOrder(String foodName) {
@@ -427,6 +488,7 @@ public class clientOrderUI extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton signOutBtn;
+    private javax.swing.JPanel statusPanel;
     // End of variables declaration//GEN-END:variables
 
 }
