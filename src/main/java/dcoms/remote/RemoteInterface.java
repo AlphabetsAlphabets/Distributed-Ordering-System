@@ -12,5 +12,6 @@ public interface RemoteInterface extends Remote {
 
     public boolean loginUser(String username, char[] password) throws RemoteException, SQLException, LoginException;
     public int getUserRole(String username) throws RemoteException, SQLException;
-
+    
+    public boolean ping() throws RemoteException;
 }
