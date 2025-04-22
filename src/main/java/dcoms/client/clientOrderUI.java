@@ -406,14 +406,14 @@ public class clientOrderUI extends javax.swing.JPanel {
                 int updated = updateStmt.executeUpdate();
 
                 if (updated > 0) {
-                    // ✅ 1. Load current user from session
+
                     dcoms.utils.UserSession currentSession = dcoms.utils.Session.loadSession();
                     if (currentSession == null || currentSession.username == null) {
                         JOptionPane.showMessageDialog(this, "No user session found. Please log in.");
                         return;
                     }
                     String username = currentSession.username;
-                    // ✅ 2. Get food_id and price
+
                     String getInfoQuery = "SELECT food_id, price FROM food WHERE food_name = ?";
                     PreparedStatement getInfoStmt = conn.prepareStatement(getInfoQuery);
                     getInfoStmt.setString(1, foodName);
@@ -424,8 +424,7 @@ public class clientOrderUI extends javax.swing.JPanel {
                     if (infoResult.next()) {
                         foodId = infoResult.getInt("food_id");
                         price = infoResult.getDouble("price");
-                    
-                        // ✅ 3. Insert full order into orders table
+
                         String insertOrderQuery = "INSERT INTO orders (username, food_id, food_name, quantity, price, total_price) VALUES (?, ?, ?, ?, ?, ?)";
                         PreparedStatement insertOrderStmt = conn.prepareStatement(insertOrderQuery);
                         insertOrderStmt.setString(1, username);
@@ -436,9 +435,9 @@ public class clientOrderUI extends javax.swing.JPanel {
                         insertOrderStmt.setDouble(6, price * quantity);
                         insertOrderStmt.executeUpdate();
                     }
-                
+
                     JOptionPane.showMessageDialog(this,
-                        "You ordered " + quantity + " of " + foodName + "!\nOrder successful!");
+                            "You ordered " + quantity + " of " + foodName + "!\nOrder successful!");
                 } else {
                     // If no row was updated, stock was changed or insufficient
                     // Get the latest available stock to show a message
