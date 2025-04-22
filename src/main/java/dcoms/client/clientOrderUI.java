@@ -406,6 +406,36 @@ public class clientOrderUI extends javax.swing.JPanel {
                 int updated = updateStmt.executeUpdate();
 
                 if (updated > 0) {
+
+                    dcoms.utils.UserSession currentSession = dcoms.utils.Session.loadSession();
+                    if (currentSession == null || currentSession.username == null) {
+                        JOptionPane.showMessageDialog(this, "No user session found. Please log in.");
+                        return;
+                    }
+                    String username = currentSession.username;
+
+                    String getInfoQuery = "SELECT food_id, price FROM food WHERE food_name = ?";
+                    PreparedStatement getInfoStmt = conn.prepareStatement(getInfoQuery);
+                    getInfoStmt.setString(1, foodName);
+                    ResultSet infoResult = getInfoStmt.executeQuery();
+
+                    int foodId = -1;
+                    double price = 0.0;
+                    if (infoResult.next()) {
+                        foodId = infoResult.getInt("food_id");
+                        price = infoResult.getDouble("price");
+
+                        String insertOrderQuery = "INSERT INTO orders (username, food_id, food_name, quantity, price, total_price) VALUES (?, ?, ?, ?, ?, ?)";
+                        PreparedStatement insertOrderStmt = conn.prepareStatement(insertOrderQuery);
+                        insertOrderStmt.setString(1, username);
+                        insertOrderStmt.setInt(2, foodId);
+                        insertOrderStmt.setString(3, foodName);
+                        insertOrderStmt.setInt(4, quantity);
+                        insertOrderStmt.setDouble(5, price);
+                        insertOrderStmt.setDouble(6, price * quantity);
+                        insertOrderStmt.executeUpdate();
+                    }
+
                     JOptionPane.showMessageDialog(this,
                             "You ordered " + quantity + " of " + foodName + "!\nOrder successful!");
                 } else {

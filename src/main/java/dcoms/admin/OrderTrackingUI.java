@@ -1,6 +1,10 @@
 package dcoms.admin;
 
 import java.awt.CardLayout;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 import javax.swing.JPanel;
 
 public class OrderTrackingUI extends javax.swing.JPanel {
@@ -58,12 +62,20 @@ public class OrderTrackingUI extends javax.swing.JPanel {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "UserID", "OrderID", "Order Item", "Qty", "Price/Unit", "Total"
+                "Username", "OrderID", "FoodID", "Food", "Qty", "Price", "Total Price", "Order Time"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.String.class, 
+                java.lang.Integer.class, 
+                java.lang.Integer.class, 
+                java.lang.String.class,  
+                java.lang.Integer.class,
+                java.lang.String.class,  
+                java.lang.String.class,  
+                java.lang.String.class  
             };
+            
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false
             };
@@ -150,7 +162,45 @@ public class OrderTrackingUI extends javax.swing.JPanel {
     }//GEN-LAST:event_backBtnActionPerformed
 
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
-        // TODO add your handling code here:
+        try {
+            Connection conn = dcoms.utils.Database.getConnection();
+
+            String query = "SELECT username, order_id, food_id, food_name, quantity, price, total_price, order_time FROM orders ORDER BY order_time DESC";
+
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+
+            // Clear current table rows
+            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            // Populate table
+            while (rs.next()) {
+                String username = rs.getString("username");
+                int orderId = rs.getInt("order_id");
+                int foodId = rs.getInt("food_id");
+                String foodName = rs.getString("food_name");
+                int quantity = rs.getInt("quantity");
+                double price = rs.getDouble("price");
+                double totalPrice = rs.getDouble("total_price");
+                String orderTime = rs.getTimestamp("order_time").toString(); // if you want to use timestamp later
+            
+                Object[] row = {username, orderId, foodId, foodName, quantity,      
+                    String.format("RM %.2f", price),       
+                    String.format("RM %.2f", totalPrice), orderTime  
+                };
+                model.addRow(row);
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error loading orders: " + e.getMessage());
+            e.printStackTrace();
+        }
+
     }//GEN-LAST:event_refreshBtnActionPerformed
 
 
