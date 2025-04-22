@@ -16,13 +16,11 @@ public class Register {
                 System.setProperty("javax.net.ssl.keyStore", "serverkeystore.jks");
                 System.setProperty("javax.net.ssl.keyStorePassword", dotenv.get("SERVER_KEYSTORE_PASSWORD"));
 
-                Registry reg = LocateRegistry.createRegistry(port, new SslRMIClientSocketFactory(),
-                                new SslRMIServerSocketFactory());
+                Registry reg = LocateRegistry.createRegistry(port, new RMISSLClientSocketFactory(),
+                                new RMISSLServerSocketFactory());
                 Server server = new Server();
 
-                reg.bind("registerUser", server);
-                reg.bind("loginUser", server);
-
+                reg.rebind("OrderSystem", server);
                 System.out.println("Server running.");
         }
 }

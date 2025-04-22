@@ -271,12 +271,12 @@ public class LoginUI extends javax.swing.JFrame {
                 int role = 0;
 
                 try {
-                        var loginUser = ClientInterface.getFunction("loginUser");
-                        loginSuccessful = loginUser.loginUser(username, password);
+                        var loginFunction = ClientInterface.getFunction();
+                        loginSuccessful = loginFunction.loginUser(username, password);
 
                         if (loginSuccessful) {
                                 // get role from server
-                                role = loginUser.getUserRole(username);
+                                role = loginFunction.getUserRole(username);
                         }
 
                 } catch (LoginException e) {
