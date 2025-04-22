@@ -227,8 +227,7 @@ public class LoginUI extends javax.swing.JFrame {
 
         public void autoLogin(String username) {
                 try {
-                        var loginUser = ClientInterface.getFunction("loginUser");
-                        int role = loginUser.getUserRole(username);
+                        int role = ClientInterface.getFunction().getUserRole(username);
 
                         // Show correct dashboard through existing CardLayout setup
                         if (role == 1) {
