@@ -303,7 +303,7 @@ public class RegisterUI extends javax.swing.JPanel {
                         errorMsg = "Unexpected error: " + e.getMessage();
                 }
 
-                if (errorMsg.length() == 0) {
+                if (errorMsg.length() != 0) {
                         JOptionPane.showMessageDialog(this, errorMsg);
                         return;
                 }
