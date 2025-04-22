@@ -11,7 +11,12 @@ public interface RemoteInterface extends Remote {
             throws RemoteException, SQLException, RegisterExecption;
 
     public boolean loginUser(String username, char[] password) throws RemoteException, SQLException, LoginException;
+
     public int getUserRole(String username) throws RemoteException, SQLException;
-    
+
     public boolean ping() throws RemoteException;
+
+    public int handleOrder(String foodName, int quantity) throws RemoteException, SQLException;
+
+    public int getQuantity(String foodName) throws RemoteException, SQLException;
 }
