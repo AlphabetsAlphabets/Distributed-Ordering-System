@@ -78,4 +78,83 @@ public class Server extends UnicastRemoteObject implements RemoteInterface {
     public boolean ping() throws RemoteException {
         return true;
     }
+
+    @Override
+    public int handleOrder(String foodName, int quantity) throws RemoteException, SQLException {
+        int updated = checkQuantity(foodName, quantity);
+        if (updated <= 0) {
+            return updated;
+        }
+
+        return addOrder(foodName, quantity);
+    }
+
+    private int addOrder(String foodName, int quantity) throws SQLException {
+        Connection conn = Database.getConnection();
+        dcoms.utils.UserSession currentSession = dcoms.utils.Session.loadSession();
+        if (currentSession == null || currentSession.username == null) {
+            return 0;
+        }
+
+        String username = currentSession.username;
+
+        String getInfoQuery = "SELECT food_id, price FROM food WHERE food_name = ?";
+        PreparedStatement getInfoStmt = conn.prepareStatement(getInfoQuery);
+        getInfoStmt.setString(1, foodName);
+        ResultSet infoResult = getInfoStmt.executeQuery();
+
+        int foodId = -1;
+        double price = 0.0;
+        if (!infoResult.next()) {
+            return 0;
+        }
+
+        foodId = infoResult.getInt("food_id");
+        price = infoResult.getDouble("price");
+
+        String insertOrderQuery = "INSERT INTO orders (username, food_id, food_name, quantity, price, total_price) VALUES (?, ?, ?, ?, ?, ?)";
+        PreparedStatement insertOrderStmt = conn.prepareStatement(insertOrderQuery);
+
+        insertOrderStmt.setString(1, username);
+        insertOrderStmt.setInt(2, foodId);
+        insertOrderStmt.setString(3, foodName);
+        insertOrderStmt.setInt(4, quantity);
+        insertOrderStmt.setDouble(5, price);
+        insertOrderStmt.setDouble(6, price * quantity);
+        insertOrderStmt.executeUpdate();
+
+        return 1;
+    }
+
+    private int checkQuantity(String foodName, int quantity) throws RemoteException, SQLException {
+        Connection conn = Database.getConnection();
+
+        // Atomic update: Only subtract quantity IF current stock is enough
+        String updateQuery = "UPDATE food SET quantity = quantity - ? WHERE food_name = ? AND quantity >= ?";
+        PreparedStatement updateStmt = conn.prepareStatement(updateQuery);
+        updateStmt.setInt(1, quantity);
+        updateStmt.setString(2, foodName);
+        updateStmt.setInt(3, quantity);
+
+        return updateStmt.executeUpdate();
+    }
+
+    @Override
+    public int getQuantity(String foodName) throws SQLException {
+        Connection conn = Database.getConnection();
+
+        // If no row was updated, stock was changed or insufficient
+        // Get the latest available stock to show a message
+        String recheckQuery = "SELECT quantity FROM food WHERE food_name = ?";
+        PreparedStatement recheckStmt = conn.prepareStatement(recheckQuery);
+        recheckStmt.setString(1, foodName);
+        ResultSet rs = recheckStmt.executeQuery();
+
+        if (rs.next()) {
+            int currentStock = rs.getInt("quantity");
+            return currentStock;
+        }
+
+        return -1;
+    }
 }
