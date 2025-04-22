@@ -44,3 +44,9 @@ createdb database
 # Auto create required tables
 
 Please run the code in `CreateDB.java` before you start the demo using `App.java`. Otherwise, the program will fail as the expected tables are unavailable.
+
+# Generate keystore
+
+```
+keytool -keystore clientkeystore -genkey -alias client -keyalg rsa -validity 730
+```

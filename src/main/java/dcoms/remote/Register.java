@@ -4,20 +4,23 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 import dcoms.utils.Env;
+
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class Register {
-    public static void main(String[] args) throws Exception {
-        Env.loadEnv();
-        Dotenv dotenv = Env.env;
-        int port = Integer.parseInt(dotenv.get("RMI_PORT"));
+        public static void main(String[] args) throws Exception {
+                Env.loadEnv();
+                Dotenv dotenv = Env.env;
+                int port = Integer.parseInt(dotenv.get("RMI_PORT"));
 
-        Registry reg = LocateRegistry.createRegistry(port);
-        Server server = new Server();
+                System.setProperty("javax.net.ssl.keyStore", "serverkeystore.jks");
+                System.setProperty("javax.net.ssl.keyStorePassword", dotenv.get("SERVER_KEYSTORE_PASSWORD"));
 
-        reg.bind("registerUser", server);
-        reg.bind("loginUser", server);
+                Registry reg = LocateRegistry.createRegistry(port, new RMISSLClientSocketFactory(),
+                                new RMISSLServerSocketFactory());
+                Server server = new Server();
 
-        System.out.println("Server running.");
-    }
+                reg.rebind("OrderSystem", server);
+                System.out.println("Server running.");
+        }
 }
