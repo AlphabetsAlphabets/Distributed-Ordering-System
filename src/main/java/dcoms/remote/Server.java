@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import dcoms.Errors.LoginException;
 import dcoms.Errors.RegisterExecption;
@@ -156,5 +157,41 @@ public class Server extends UnicastRemoteObject implements RemoteInterface {
         }
 
         return -1;
+    }
+
+    @Override
+    public ArrayList<String[]> getOrders() throws RemoteException, SQLException {
+        Connection conn = dcoms.utils.Database.getConnection();
+
+        String query = "SELECT username, order_id, food_id, food_name, quantity, price, total_price, order_time FROM orders ORDER BY order_time DESC";
+
+        PreparedStatement stmt = conn.prepareStatement(query);
+        ResultSet rs = stmt.executeQuery();
+
+        ArrayList<String[]> rows = new ArrayList<>();
+
+        while (rs.next()) {
+            String username = rs.getString("username");
+            int orderId = rs.getInt("order_id");
+            int foodId = rs.getInt("food_id");
+            String foodName = rs.getString("food_name");
+            int quantity = rs.getInt("quantity");
+            double price = rs.getDouble("price");
+            double totalPrice = rs.getDouble("total_price");
+            String orderTime = rs.getTimestamp("order_time").toString(); // if you want to use timestamp later
+
+            String[] row = { username, Integer.toString(orderId), Integer.toString(foodId), foodName,
+                    Integer.toString(quantity),
+                    String.format("RM %.2f", price),
+                    String.format("RM %.2f", totalPrice), orderTime
+            };
+
+            rows.add(row);
+        }
+
+        rs.close();
+        stmt.close();
+
+        return rows;
     }
 }
