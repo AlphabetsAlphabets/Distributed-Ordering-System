@@ -17,6 +17,7 @@ public class Register {
 
         reg.bind("registerUser", server);
         reg.bind("loginUser", server);
+        reg.bind("ping", server); 
 
         System.out.println("Server running.");
     }
