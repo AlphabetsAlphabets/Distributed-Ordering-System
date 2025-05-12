@@ -16,7 +16,7 @@ public class CreateDB {
         String url = "jdbc:postgresql://" + dotenv.get("DB_IP") + ":" + dotenv.get("DB_PORT") + "/"
                 + dotenv.get("DB_NAME");
         String db_user = dotenv.get("DB_USER");
-        String password = dotenv.get("DB_PASSOWRD");
+        String password = dotenv.get("DB_PASSWORD");
 
         String createTableSQL = "CREATE TABLE IF NOT EXISTS users ("
                 + "id SERIAL PRIMARY KEY,"
