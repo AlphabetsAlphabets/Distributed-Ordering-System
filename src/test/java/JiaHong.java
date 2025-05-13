@@ -21,7 +21,7 @@ import dcoms.utils.Env;
 public class JiaHong {
     RemoteInterface fn;
     @BeforeAll
-    void makeConnection() throws RemoteException, MalformedURLException, NotBoundException {
+    void setup() throws RemoteException, MalformedURLException, NotBoundException {
         Env.loadEnv();
         new ClientInterface();
         fn = ClientInterface.getFunction();
@@ -82,6 +82,6 @@ public class JiaHong {
 
     @Test
     void getQuantityWithEmptyString() {
-        assertThrows(SQLException.class, () -> fn.getQuantity(""));
+        assertThrows(SQLException.class, () -> fn.getQuantity(""), "Empty string should throw SQLException");
     }
 }
