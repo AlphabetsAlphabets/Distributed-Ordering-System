@@ -72,16 +72,25 @@ public class JiaHong {
 
     @Test
     void getQuantityForNonExistingFood() {
-        assertThrows(SQLException.class, () -> fn.getQuantity("NonExistentFood"));
+        assertDoesNotThrow(() -> {
+            int quantity = fn.getQuantity("NonExistentFood");
+            assertTrue(quantity == -1, "Quantity should be -1 for non-existing food");
+        });
     }
 
     @Test
     void getQuantityWithNull() {
-        assertThrows(SQLException.class, () -> fn.getQuantity(null));
+        assertDoesNotThrow(() -> {
+            int quantity = fn.getQuantity(null);
+            assertTrue(quantity == -1, "Quantity should be -1 for non-existing food");
+        });
     }
 
     @Test
     void getQuantityWithEmptyString() {
-        assertThrows(SQLException.class, () -> fn.getQuantity(""), "Empty string should throw SQLException");
+        assertDoesNotThrow(() -> {
+            int quantity = fn.getQuantity("");
+            assertTrue(quantity == -1, "Quantity should be -1 for empty food name");
+        });
     }
 }
