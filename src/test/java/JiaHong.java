@@ -15,12 +15,14 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import dcoms.client.ClientInterface;
 import dcoms.remote.RemoteInterface;
+import dcoms.utils.Env;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public class JiaHong {
     RemoteInterface fn;
     @BeforeAll
     void makeConnection() throws RemoteException, MalformedURLException, NotBoundException {
+        Env.loadEnv();
         new ClientInterface();
         fn = ClientInterface.getFunction();
     }
