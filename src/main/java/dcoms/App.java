@@ -15,7 +15,6 @@ public class App {
         try {
             new ClientInterface();
         } catch (RemoteException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

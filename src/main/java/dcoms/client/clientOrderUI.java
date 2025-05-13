@@ -315,7 +315,6 @@ public class clientOrderUI extends javax.swing.JPanel {
     }
 
     private void food3BtnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_food3BtnActionPerformed
-        // TODO add your handling code here:
         handleOrder(food3Btn.getText());
     }// GEN-LAST:event_food3BtnActionPerformed
 
@@ -398,15 +397,12 @@ public class clientOrderUI extends javax.swing.JPanel {
             e.printStackTrace();
             return;
         } catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return;
         } catch (RemoteException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return;
         } catch (NotBoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return;
         }
@@ -451,7 +447,6 @@ public class clientOrderUI extends javax.swing.JPanel {
                     JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         } catch (RemoteException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

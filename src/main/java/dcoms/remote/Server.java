@@ -31,7 +31,6 @@ public class Server extends UnicastRemoteObject implements RemoteInterface {
         stmt.setString(3, phone);
         stmt.setString(4, email);
 
-        // TODO: Handle a few SQL exceptions and convert to RegisterException
         stmt.executeUpdate();
 
         return true;

@@ -270,15 +270,12 @@ public class RegisterUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void phoneFieldActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_phoneTxtFieldActionPerformed
-        // TODO add your handling code here:
     }// GEN-LAST:event_phoneTxtFieldActionPerformed
 
     private void emailFieldActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_emailTxtFieldActionPerformed
-        // TODO add your handling code here:
     }// GEN-LAST:event_emailTxtFieldActionPerformed
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_registerButtonActionPerformed
-        // TODO add your handling code here:
         String username = this.usernameField.getText();
         String email = this.emailField.getText();
         String phone = this.phoneField.getText();
@@ -290,12 +287,9 @@ public class RegisterUI extends javax.swing.JPanel {
         } else if (password.length <= 0) {
             JOptionPane.showMessageDialog(this, "Password field cannot be empty.");
         } else if (email.length() <= 0) {
-            // TODO: Email validation
             JOptionPane.showMessageDialog(this, "Email cannot be empty");
         }
-
-        // TODO: Add check for phone numbers
-        // TODO: Make the register error actually work
+        
         String errorMsg = "";
         try {
             ClientInterface.getFunction().registerUser(username, password, phone, email);
